@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — Pantry Junction</title>
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5gEyvX1yEbtIbQyXfOfrXGFwfi47Qs74ysA&s">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --gold:#d4a574;--gold-lt:#e8c49a;--gold-dk:#b8945f;
+      --black:#141414;--dark:#1b1b1b;--card:#1a1a1a;--border:#2a2a2a;
+      --text:#ffffff;--muted:#b3b3b3;
+      --ff-display:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+      --ff-body:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-family:var(--ff-body)}
+    html{scroll-behavior:smooth}
+    body{min-height:100vh;background:var(--black);color:var(--text);font-family:var(--ff-body);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+
+    /* ===== NAVBAR ===== */
+    header { display:flex; justify-content:space-between; align-items:center; background-color:#1a1a1a; padding:15px 50px; position:sticky; top:0; z-index:200; box-shadow:0 2px 10px rgba(0,0,0,0.3); }
+    .logo { letter-spacing:3px; font-size:28px; font-weight:bold; color:#d4a574; text-transform:uppercase; text-decoration:none; }
+    #desktopNav { display:flex; gap:40px; align-items:center; }
+    #desktopNav a { text-decoration:none; color:#fff; padding:10px 15px; transition:all 0.3s; font-size:14px; font-weight:500; text-transform:uppercase; }
+    #desktopNav a:hover, #desktopNav a.active { color:#d4a574; border-bottom:2px solid #d4a574; }
+    .profile-section { position:relative; display:flex; align-items:center; }
+    .profile-pic { width:40px; height:40px; border-radius:50%; background:#d4a574; display:flex; align-items:center; justify-content:center; color:#1a1a1a; font-weight:bold; font-size:18px; cursor:pointer; transition:all 0.3s; }
+    .profile-pic:hover { transform:scale(1.1); }
+    .profile-dropdown { position:absolute; top:55px; right:0; background:#1a1a1a; border:1px solid #d4a574; border-radius:8px; padding:20px; min-width:250px; box-shadow:0 4px 20px rgba(0,0,0,0.5); display:none; z-index:1000; }
+    .profile-dropdown.show { display:block; }
+    .profile-dropdown h3 { color:#d4a574; margin-bottom:15px; font-size:18px; }
+    .profile-dropdown p { margin:8px 0; font-size:14px; color:#fff; }
+    .profile-dropdown .btn { background:#d4a574; color:#1a1a1a; border:none; padding:8px 16px; border-radius:4px; cursor:pointer; font-weight:bold; margin:4px 0; display:block; width:100%; transition:background 0.2s; }
+    .profile-dropdown .btn:hover { background:#b8945f; }
+    .hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; }
+    .hamburger svg { display:block; }
+    .mobile-overlay { display:none; position:fixed; inset:0; background:#1a1a1a; z-index:300; flex-direction:column; align-items:center; padding-top:75px; gap:6px; overflow-y:auto; }
+    .mobile-overlay.open { display:flex; }
+    .overlay-top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:14px 22px; background:#1a1a1a; border-bottom:1px solid #2a2a2a; }
+    .overlay-logo { font-size:20px; font-weight:bold; color:#d4a574; letter-spacing:2px; text-transform:uppercase; }
+    .overlay-close { background:none; border:none; color:#d4a574; font-size:28px; cursor:pointer; line-height:1; }
+    .mobile-overlay .mobile-links { display:flex; flex-direction:column; align-items:center; gap:4px; width:100%; margin-top:10px; }
+    .mobile-overlay .mobile-links a { text-decoration:none; color:#fff; font-size:19px; font-weight:500; text-transform:uppercase; padding:13px 32px; width:270px; text-align:center; border-radius:8px; transition:background 0.2s,color 0.2s; }
+    .mobile-overlay .mobile-links a:hover, .mobile-overlay .mobile-links a.active { background:rgba(212,165,116,0.15); color:#d4a574; }
+    .mobile-profile { margin-top:24px; display:flex; flex-direction:column; align-items:center; gap:10px; width:100%; padding-bottom:30px; }
+    .m-user { color:#d4a574; font-size:16px; font-weight:bold; }
+    .m-phone { color:#fff; font-size:14px; margin-bottom:10px; }
+    .m-btn { background:#d4a574; color:#1a1a1a; border:none; padding:10px 0; border-radius:6px; font-size:15px; font-weight:bold; cursor:pointer; width:200px; transition:background 0.2s; }
+    .m-btn:hover { background:#b8945f; }
+
+    /* ── AUTH LAYOUT ── */
+    .auth-page{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 20px;background:linear-gradient(160deg, #141414 0%, #1e1e1e 45%, #141414 100%);position:relative;overflow:hidden}
+    .auth-page::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 20% 40%,rgba(212,165,116,.14) 0%,transparent 70%);pointer-events:none;opacity:0.85;}
+    .auth-page::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 85% 25%,rgba(212,165,116,.08) 0%,transparent 70%);pointer-events:none;opacity:0.9;}
+
+    .auth-card{width:100%;max-width:460px;position:relative;z-index:1;box-shadow:0 18px 40px rgba(0,0,0,0.6);border-radius:18px;overflow:hidden;}
+
+    .auth-brand{text-align:center;margin-bottom:36px}
+    .brand-icon{width:70px;height:70px;border-radius:50%;background:rgba(212,165,116,.14);border:1px solid rgba(212,165,116,.35);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px;box-shadow:0 6px 18px rgba(0,0,0,0.35)}
+    .auth-brand h1{font-family:var(--ff-display);font-size:34px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:1px;}
+    .auth-brand p{font-size:14px;color:var(--muted);max-width:360px;margin:0 auto;line-height:1.5}
+
+    .form-box{background:rgba(26,26,26,0.85);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.06);border-top:3px solid rgba(212,165,116,0.7);border-radius:14px;padding:36px 32px;box-shadow:0 12px 28px rgba(0,0,0,0.45);}
+    .form-title{font-family:var(--ff-display);font-size:24px;font-weight:600;color:var(--gold);margin-bottom:26px;text-align:center}
+
+    /* Two-column row for wider form */
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+    .field{margin-bottom:18px}
+    .field label{display:block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+    .field input,.field textarea{width:100%;padding:12px 14px;background:#111;border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:var(--ff-body);font-size:14px;outline:none;transition:border-color .2s,background .2s;resize:vertical}
+    .field input::placeholder,.field textarea::placeholder{color:#555}
+    .field input:focus,.field textarea:focus{border-color:var(--gold);background:#141414}
+    .pw-wrap{position:relative}
+    .pw-wrap input{padding-right:44px}
+    .pw-toggle{position:absolute;right:13px;top:50%;transform:translateY(-50%);cursor:pointer;color:#555;font-size:14px;transition:color .2s;background:none;border:none;padding:0}
+    .pw-toggle:hover{color:var(--gold)}
+
+    /* Password strength dots */
+    .pw-strength{display:flex;gap:5px;margin-top:7px;align-items:center}
+    .pw-dot{height:3px;flex:1;border-radius:2px;background:var(--border);transition:background .3s}
+    .pw-dot.weak{background:#e74c3c}
+    .pw-dot.fair{background:#f39c12}
+    .pw-dot.good{background:var(--gold)}
+    .pw-dot.strong{background:#2ecc71}
+    .pw-label{font-size:11px;color:var(--muted);min-width:40px}
+
+    .btn-submit{width:100%;padding:13px;background:linear-gradient(120deg,rgba(212,165,116,0.95),rgba(212,165,116,0.85));color:var(--dark);border:none;border-radius:10px;font-family:var(--ff-body);font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s;margin-top:6px;box-shadow:0 8px 18px rgba(0,0,0,0.3)}
+    .btn-submit:hover{background:linear-gradient(120deg,rgba(212,165,116,1),rgba(212,165,116,0.9));transform:translateY(-1px);box-shadow:0 12px 24px rgba(0,0,0,0.35)}
+
+    .switch-link{text-align:center;margin-top:22px;font-size:13px;color:var(--muted)}
+    .switch-link a{color:var(--gold);text-decoration:none;font-weight:600;border-bottom:1px solid transparent;transition:border-color .2s}
+    .switch-link a:hover{border-bottom-color:var(--gold)}
+
+    @media(max-width:900px){
+      header{padding:0 24px}
+      #desktopNav{display:none}
+      .hamburger{display:flex}
+    }
+    @media(max-width:560px){
+      .field-row{grid-template-columns:1fr}
+      .auth-page{padding:32px 16px}
+      .form-box{padding:28px 20px}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">PJ-Restaurant</a>
+  <nav id="desktopNav">
+    <a href="index.html">Home</a>
+    <a href="order.html">Order</a>
+    <a href="table_booking.html">Table Booking</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <div class="profile-section">
+      <div class="profile-pic" id="profilePic" onclick="toggleProfileDropdown()">&#128100;</div>
+      <div class="profile-dropdown" id="profileDropdown">
+        <div id="loggedOutContent">
+          <h3>Welcome</h3>
+          <p>Sign in to access your profile</p>
+          <button class="btn" onclick="window.location.href='login.html'">Login</button>
+          <button class="btn outline" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+        <div id="loggedInContent" style="display:none;">
+          <h3 id="userName">User</h3>
+          <p id="userEmail">user@example.com</p>
+          <p id="userPhone">Phone: Not provided</p>
+          <button class="btn" onclick="window.location.href='profile.html'">View Profile</button>
+          <button class="btn outline" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+    <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
+      <rect y="0" width="24" height="2" rx="1" fill="#d4a574"/>
+      <rect y="8" width="24" height="2" rx="1" fill="#d4a574"/>
+      <rect y="16" width="24" height="2" rx="1" fill="#d4a574"/>
+    </svg>
+  </button>
+</header>
+
+<div class="mobile-overlay" id="mobileOverlay">
+  <div class="overlay-top">
+    <span class="overlay-logo">Pantry Junction</span>
+    <button class="overlay-close" id="closeBtn">&#10005;</button>
+  </div>
+  <nav class="mobile-links">
+    <a href="index.html">Home</a>
+    <a href="order.html">Order</a>
+    <a href="table_booking.html">Table Booking</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+  <div class="mobile-profile" id="mobileProfileSection"></div>
+</div>
+
+<!-- AUTH PAGE -->
+<main class="auth-page">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="brand-icon">&#127775;</div>
+      <h1>Create Account</h1>
+      <p>Join Pantry Junction and enjoy exclusive benefits</p>
+    </div>
+
+    <div class="form-box">
+      <div class="form-title">Your Details</div>
+      <form id="signupForm" novalidate>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Full Name</label>
+            <input type="text" id="name" placeholder="Your full name" required>
+          </div>
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="you@example.com" required>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Phone Number</label>
+            <input type="tel" id="phone" placeholder="+91 XXXXXXXXXX" required>
+          </div>
+          <div class="field">
+            <label>Delivery Address</label>
+            <input type="text" id="address" placeholder="Enter your full address" required>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Password</label>
+            <div class="pw-wrap">
+              <input type="password" id="password" placeholder="Min. 6 characters" required>
+              <button type="button" class="pw-toggle" aria-label="Toggle password"><i class="fa-solid fa-eye"></i></button>
+            </div>
+            <div class="pw-strength">
+              <div class="pw-dot" id="dot1"></div>
+              <div class="pw-dot" id="dot2"></div>
+              <div class="pw-dot" id="dot3"></div>
+              <div class="pw-dot" id="dot4"></div>
+              <span class="pw-label" id="pwLabel"></span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Confirm Password</label>
+            <div class="pw-wrap">
+              <input type="password" id="confirmPassword" placeholder="Re-enter password" required>
+              <button type="button" class="pw-toggle" aria-label="Toggle password"><i class="fa-solid fa-eye"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit">Create Account</button>
+      </form>
+      <p class="switch-link">Already have an account? <a href="login.html">Login</a></p>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Password strength meter
+  const pwInput = document.getElementById('password');
+  const dots = [document.getElementById('dot1'),document.getElementById('dot2'),document.getElementById('dot3'),document.getElementById('dot4')];
+  const pwLabel = document.getElementById('pwLabel');
+  const levels = ['','weak','fair','good','strong'];
+  const labels = ['','Weak','Fair','Good','Strong'];
+
+  pwInput.addEventListener('input', function(){
+    const v = this.value;
+    let score = 0;
+    if(v.length >= 6) score++;
+    if(v.length >= 10) score++;
+    if(/[A-Z]/.test(v) && /[0-9]/.test(v)) score++;
+    if(/[^A-Za-z0-9]/.test(v)) score++;
+    dots.forEach((d,i)=>{
+      d.className='pw-dot'+(i<score?' '+levels[score]:'');
+    });
+    pwLabel.textContent = v.length ? labels[score] : '';
+    pwLabel.style.color = score<=1?'#e74c3c':score===2?'#f39c12':score===3?'#d4a574':'#2ecc71';
+  });
+
+  // Password toggles
+  document.querySelectorAll('.pw-toggle').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      const input = this.parentElement.querySelector('input');
+      if(!input) return;
+      const show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      const icon = this.querySelector('i');
+      icon.classList.toggle('fa-eye', !show);
+      icon.classList.toggle('fa-eye-slash', show);
+    });
+  });
+
+  // Form submit
+  document.getElementById('signupForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const pw = document.getElementById('password').value;
+    const cpw = document.getElementById('confirmPassword').value;
+    if(!name||!email||!phone||!address||!pw||!cpw){alert('Please fill in all fields.');return;}
+    if(pw.length < 6){alert('Password must be at least 6 characters.');return;}
+    if(pw !== cpw){alert('Passwords do not match.');return;}
+    let users = JSON.parse(localStorage.getItem('users')||'[]');
+    if(users.some(u=>u.email===email)){alert('Email already registered. Please login.');return;}
+    const memberSince = new Date().toISOString();
+    const avatarOptions = ['👤', '😊', '😃', '😎', '🧑', '👨', '👩', '🧔', '👶', '🤖', '🐱', '🐶', '🦁', '🐯', '🦊', '🐻', '⭐', '🌟', '🎭', '🎪'];
+    const defaultAvatar = avatarOptions[Math.floor(Math.random() * avatarOptions.length)];
+    users.push({name,email,phone,address,password:pw,memberSince});
+    localStorage.setItem('users',JSON.stringify(users));
+    localStorage.setItem('currentUser',JSON.stringify({name,email,phone,address,memberSince,avatarEmoji:defaultAvatar}));
+    alert('Account created successfully! Redirecting to profile…');
+    window.location.href = 'profile.html';
+  });
+
+  function checkLoginStatus(){
+    const u = JSON.parse(localStorage.getItem('currentUser'));
+    const pp = document.getElementById('profilePic');
+    const mp = document.getElementById('mobileProfileSection');
+    if(u){
+      pp.textContent = (u.name||u.email).charAt(0).toUpperCase();
+      document.getElementById('loggedOutContent').style.display='none';
+      document.getElementById('loggedInContent').style.display='block';
+      document.getElementById('userName').textContent = u.name||'User';
+      document.getElementById('userEmail').textContent = u.email||'';
+      document.getElementById('userPhone').textContent = u.phone ? 'Phone: ' + u.phone : 'Phone: Not provided';
+      mp.innerHTML='<p class="m-user">Hi, '+(u.name||'User')+'</p><p class="m-phone">' + (u.phone ? 'Phone: ' + u.phone : 'Phone: Not provided') + '</p><button class="m-btn" onclick="window.location.href=\'profile.html\'">View Profile</button><button class="m-btn outline" onclick="logout()">Logout</button>';
+    }else{
+      pp.innerHTML='&#128100;';
+      document.getElementById('loggedOutContent').style.display='block';
+      document.getElementById('loggedInContent').style.display='none';
+      mp.innerHTML='<button class="m-btn" onclick="window.location.href=\'login.html\'">Login</button><button class="m-btn outline" onclick="window.location.href=\'signup.html\'">Sign Up</button>';
+    }
+  }
+  function toggleProfileDropdown(){document.getElementById('profileDropdown').classList.toggle('show');}
+  function logout(){localStorage.removeItem('currentUser');location.reload();}
+  document.addEventListener('click',function(e){
+    const ps = document.querySelector('#desktopNav .profile-section');
+    const dd = document.getElementById('profileDropdown');
+    if(ps&&!ps.contains(e.target)&&dd) dd.classList.remove('show');
+  });
+  document.getElementById('hamburgerBtn').addEventListener('click',function(){
+    document.getElementById('mobileOverlay').classList.add('open');
+    document.body.style.overflow='hidden';
+  });
+  document.getElementById('closeBtn').addEventListener('click',function(){
+    document.getElementById('mobileOverlay').classList.remove('open');
+    document.body.style.overflow='';
+  });
+  document.querySelectorAll('#mobileOverlay .mobile-links a').forEach(function(a){
+    a.addEventListener('click',function(){
+      document.getElementById('mobileOverlay').classList.remove('open');
+      document.body.style.overflow='';
+    });
+  });
+  document.addEventListener('DOMContentLoaded', checkLoginStatus);
+</script>
+</body>
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Pantry Junction - Table Reservation</title>
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5gEyvX1yEbtIbQyXfOfrXGFwfi47Qs74ysA&s">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #d4a574;
+      --gold-light: #e8c49a;
+      --dark: #0a0a0a;
+      --card: #1a1a1a;
+      --text: #bdbdbd;
+      --white: #ffffff;
+    }
+    body { background: var(--dark); color: var(--white); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-height: 100vh; }
+
+    /* ===== NAVBAR ===== */
+    header { display: flex; justify-content: space-between; align-items: center; background-color: #1a1a1a; padding: 15px 50px; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+    .logo { letter-spacing: 3px; font-size: 28px; font-weight: bold; color: var(--gold); text-transform: uppercase; }
+
+    /* Desktop nav */
+    #desktopNav { display: flex; gap: 40px; align-items: center; }
+    #desktopNav a { text-decoration: none; color: #fff; padding: 10px 15px; transition: all 0.3s; font-size: 14px; font-weight: 500; text-transform: uppercase; }
+    #desktopNav a:hover, #desktopNav a.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
+
+    /* Profile dropdown */
+    .profile-section { position: relative; display: flex; align-items: center; }
+    .profile-pic { width: 40px; height: 40px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; color: #1a1a1a; font-weight: bold; font-size: 18px; cursor: pointer; transition: all 0.3s; }
+    .profile-pic:hover { transform: scale(1.1); }
+    .profile-dropdown { position: absolute; top: 55px; right: 0; background: #1a1a1a; border: 1px solid var(--gold); border-radius: 8px; padding: 20px; min-width: 250px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); display: none; z-index: 1000; }
+    .profile-dropdown.show { display: block; }
+    .profile-dropdown h3 { color: var(--gold); margin-bottom: 15px; font-size: 18px; }
+    .profile-dropdown p { margin: 8px 0; font-size: 14px; color: #fff; }
+    .profile-dropdown .btn { background: var(--gold); color: #1a1a1a; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 4px 0; display: block; width: 100%; transition: background 0.2s; }
+    .profile-dropdown .btn:hover { background: #b8945f; }
+
+    /* Hamburger */
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+    .hamburger svg { display: block; }
+
+    /* Mobile overlay */
+    .mobile-overlay { display: none; position: fixed; inset: 0; background: #1a1a1a; z-index: 300; flex-direction: column; align-items: center; padding-top: 75px; gap: 6px; overflow-y: auto; }
+    .mobile-overlay.open { display: flex; }
+    .overlay-top { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 14px 22px; background: #1a1a1a; border-bottom: 1px solid #2a2a2a; }
+    .overlay-logo { font-size: 20px; font-weight: bold; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+    .overlay-close { background: none; border: none; color: var(--gold); font-size: 28px; cursor: pointer; line-height: 1; }
+    .mobile-overlay .mobile-links { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 100%; margin-top: 10px; }
+    .mobile-overlay .mobile-links a { text-decoration: none; color: #fff; font-size: 19px; font-weight: 500; text-transform: uppercase; padding: 13px 32px; width: 270px; text-align: center; border-radius: 8px; transition: background 0.2s, color 0.2s; }
+    .mobile-overlay .mobile-links a:hover, .mobile-overlay .mobile-links a.active { background: rgba(212,165,116,0.15); color: var(--gold); }
+    .mobile-profile { margin-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; padding-bottom: 30px; }
+    .m-user { color: var(--gold); font-size: 16px; font-weight: bold; }
+    .m-btn { background: var(--gold); color: #1a1a1a; border: none; padding: 10px 0; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; width: 200px; transition: background 0.2s; }
+    .m-btn:hover { background: #b8945f; }
+
+    /* ===== HERO ===== */
+    .page-header {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.88)),
+                  url('https://png.pngtree.com/thumb_back/fh260/background/20240522/pngtree-abstract-blur-coffee-shop-or-cafe-restaurant-interior-image_15683716.jpg') center/cover no-repeat;
+      padding: 90px 20px 70px;
+      text-align: center;
+    }
+    .page-header h1 { font-size: 42px; text-transform: uppercase; letter-spacing: 3px; }
+    .page-header h1 span { color: var(--gold); }
+    .page-header p { color: var(--text); font-style: italic; margin-top: 12px; font-size: 16px; }
+
+    /* ===== MAIN LAYOUT ===== */
+    .reservation-wrapper { max-width: 1100px; margin: 60px auto; padding: 0 20px 80px; display: flex; gap: 40px; align-items: flex-start; }
+
+    /* FORM SIDE */
+    .form-side { flex: 1.2; }
+    .form-side h2 { font-size: 22px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid #333; }
+    .res-form { background: var(--card); border-radius: 12px; padding: 32px; border-top: 3px solid var(--gold); }
+    .form-row { display: flex; gap: 16px; }
+    .form-row .form-group { flex: 1; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 12px; color: var(--text); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 7px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; background: #111; border: 1px solid #333; color: var(--white); padding: 11px 14px; border-radius: 6px; font-size: 14px; outline: none; transition: border 0.2s; font-family: inherit; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(212,165,116,0.15); }
+    .form-group textarea { resize: vertical; height: 90px; }
+    select option { background: #1a1a1a; }
+    .form-group input[type="date"]::-webkit-calendar-picker-indicator,
+    .form-group input[type="time"]::-webkit-calendar-picker-indicator { filter: invert(0.7); cursor: pointer; }
+
+    /* TIME SLOTS */
+    .time-label { font-size: 12px; color: var(--text); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+    .time-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .time-slot { background: #111; border: 1px solid #333; color: var(--text); padding: 9px 6px; border-radius: 6px; cursor: pointer; text-align: center; font-size: 13px; transition: all 0.2s; }
+    .time-slot:hover { border-color: var(--gold); color: var(--gold); }
+    .time-slot.selected { background: var(--gold); color: #111; font-weight: 700; border-color: var(--gold); }
+    .time-slot.unavailable { opacity: 0.35; cursor: not-allowed; text-decoration: line-through; }
+
+    /* GUESTS */
+    .guests-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .guest-btn { background: #111; border: 1px solid #333; color: var(--text); padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+    .guest-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .guest-btn.selected { background: var(--gold); color: #111; font-weight: 700; border-color: var(--gold); }
+
+    /* TABLE PREFERENCE */
+    .table-pref { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+    .pref-btn { background: #111; border: 1px solid #333; color: var(--text); padding: 9px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+    .pref-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .pref-btn.selected { background: var(--gold); color: #111; border-color: var(--gold); font-weight: 700; }
+
+    .submit-btn { width: 100%; padding: 14px; background: var(--gold); color: #111; border: none; border-radius: 7px; font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; transition: all 0.3s; margin-top: 8px; }
+    .submit-btn:hover { background: var(--gold-light); transform: scale(1.02); }
+
+    /* INFO SIDE */
+    .info-side { flex: 0.85; }
+    .info-side h2 { font-size: 22px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid #333; }
+    .restaurant-img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 24px; border: 1px solid #333; }
+    .info-card { background: var(--card); border-radius: 10px; padding: 22px; margin-bottom: 20px; border-left: 3px solid var(--gold); }
+    .info-card h3 { color: var(--gold); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .info-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+    .info-icon { font-size: 16px; min-width: 22px; }
+    .info-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+    .info-text strong { color: var(--white); }
+
+    /* FLOOR PLAN */
+    .floor-plan { background: var(--card); border-radius: 10px; padding: 22px; }
+    .floor-plan h3 { color: var(--gold); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+    .floor-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .table-tile { background: #111; border: 1px solid #2a2a2a; border-radius: 6px; padding: 10px 6px; text-align: center; font-size: 12px; color: var(--text); }
+    .table-tile .table-num { font-size: 11px; color: #666; margin-bottom: 4px; }
+    .table-tile .table-seats { font-weight: 700; font-size: 15px; color: var(--gold); }
+    .table-tile.available { border-color: #2ecc71; }
+    .table-tile.available .table-seats { color: #2ecc71; }
+    .table-tile.occupied { opacity: 0.45; }
+    .floor-legend { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .legend-dot.avail { background: #2ecc71; }
+    .legend-dot.occ { background: #666; }
+
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; align-items: center; justify-content: center; }
+    .modal-overlay.show { display: flex; }
+    .modal { background: var(--card); border-radius: 14px; padding: 44px 36px; text-align: center; max-width: 440px; width: 90%; border-top: 4px solid var(--gold); animation: popIn 0.3s ease; }
+    @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal .icon { font-size: 56px; margin-bottom: 16px; }
+    .modal h2 { color: var(--gold); font-size: 24px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+    .modal p { color: var(--text); font-size: 14px; line-height: 1.7; margin-bottom: 6px; }
+    .booking-ref { color: var(--white); font-weight: 700; font-size: 18px; margin: 14px 0; letter-spacing: 2px; }
+    .modal-detail { background: #111; border-radius: 8px; padding: 14px; margin: 14px 0; text-align: left; }
+    .modal-detail div { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+    .modal-detail div span:first-child { color: var(--text); }
+    .modal-detail div span:last-child { color: var(--white); font-weight: 600; }
+    .modal-close { margin-top: 22px; padding: 12px 32px; background: var(--gold); color: #111; border: none; border-radius: 7px; font-weight: 700; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
+    .modal-close:hover { background: var(--gold-light); }
+
+    /* FOOTER */
+    footer { background: #000; color: var(--text); padding: 50px; margin-top: 40px; }
+    .footer-container { display: flex; justify-content: space-around; gap: 40px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+    .footer-section h3 { color: var(--gold); margin-bottom: 20px; text-transform: uppercase; font-size: 16px; letter-spacing: 1px; }
+    .footer-section p { font-size: 14px; line-height: 1.8; }
+    .footer-section a { color: var(--gold); text-decoration: none; transition: all 0.3s; }
+    .footer-section a:hover { color: var(--white); }
+    .social-icons { display: flex; gap: 15px; margin-top: 15px; }
+    .social-icons a { width: 35px; height: 35px; border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--gold); }
+    .social-icons a:hover { background: var(--gold); color: #1a1a1a; }
+    .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #333; margin-top: 40px; color: #666; font-size: 14px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) { .reservation-wrapper { flex-direction: column; } }
+    @media (max-width: 768px) {
+      header { padding: 12px 20px; }
+      .logo { font-size: 22px; letter-spacing: 2px; }
+      #desktopNav { display: none; }
+      .hamburger { display: block; }
+      footer { padding: 30px 20px; }
+      .footer-container { flex-direction: column; gap: 30px; text-align: center; }
+      .social-icons { justify-content: center; }
+    }
+    @media (max-width: 600px) {
+      .page-header h1 { font-size: 28px; }
+      .form-row { flex-direction: column; }
+      .time-slots { grid-template-columns: repeat(2, 1fr); }
+      .floor-grid { grid-template-columns: repeat(3, 1fr); }
+      .res-form { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="logo">PJ-Restaurant</div>
+
+  <!-- Desktop nav -->
+  <nav id="desktopNav">
+    <a href="index.html">Home</a>
+    <a href="order.html">Order</a>
+    <a href="table_booking.html" class="active">Table Booking</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <div class="profile-section">
+      <div class="profile-pic" id="profilePic" onclick="toggleProfileDropdown()">&#128100;</div>
+      <div class="profile-dropdown" id="profileDropdown">
+        <div id="loggedOutContent">
+          <h3>Welcome!</h3>
+          <p>Please login to access your profile</p>
+          <button class="btn" onclick="window.location.href='login.html'">Login</button>
+          <button class="btn" onclick="window.location.href='signup.html'">Sign Up</button>
+        </div>
+        <div id="loggedInContent" style="display:none;">
+          <h3 id="userName">User</h3>
+          <p id="userEmail">user@example.com</p>
+          <button class="btn" onclick="window.location.href='profile.html'">View Profile</button>
+          <button class="btn" onclick="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hamburger (mobile only) -->
+  <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect y="6"  width="30" height="3" rx="1.5" fill="#d4a574"/>
+      <rect y="13" width="30" height="3" rx="1.5" fill="#d4a574"/>
+      <rect y="20" width="30" height="3" rx="1.5" fill="#d4a574"/>
+    </svg>
+  </button>
+</header>
+
+<!-- ===== MOBILE OVERLAY ===== -->
+<div class="mobile-overlay" id="mobileOverlay">
+  <div class="overlay-top">
+    <span class="overlay-logo">PJ-Restaurant</span>
+    <button class="overlay-close" id="closeBtn" aria-label="Close menu">&#10005;</button>
+  </div>
+  <div class="mobile-links">
+    <a href="index.html">Home</a>
+    <a href="order.html">Order</a>
+    <a href="table_booking.html" class="active">Table Booking</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="mobile-profile" id="mobileProfileSection"></div>
+</div>
+
+<!-- ===== HERO ===== -->
+<div class="page-header">
+  <h1>Table <span>Reservation</span></h1>
+  <p>Book your perfect dining experience at Pantry Junction</p>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="reservation-wrapper">
+
+  <!-- LEFT: FORM -->
+  <div class="form-side">
+    <h2>Book Your Table</h2>
+    <div class="res-form">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="fname" placeholder="First name">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="lname" placeholder="Last name">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="email" placeholder="you@email.com">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="phone" placeholder="+91 XXXXXXXXXX">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="res-date" min="">
+        </div>
+        <div class="form-group">
+          <label>Occasion (Optional)</label>
+          <select id="occasion">
+            <option value="">-- Select --</option>
+            <option>Birthday</option>
+            <option>Anniversary</option>
+            <option>Business Dinner</option>
+            <option>Date Night</option>
+            <option>Family Gathering</option>
+            <option>Celebration</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- GUESTS -->
+      <div class="form-group">
+        <label>Number of Guests</label>
+        <div class="guests-selector">
+          <button class="guest-btn" data-guests="1">1</button>
+          <button class="guest-btn" data-guests="2">2</button>
+          <button class="guest-btn" data-guests="3">3</button>
+          <button class="guest-btn" data-guests="4">4</button>
+          <button class="guest-btn" data-guests="5">5</button>
+          <button class="guest-btn" data-guests="6">6</button>
+          <button class="guest-btn" data-guests="7">7</button>
+          <button class="guest-btn" data-guests="8+">8+</button>
+        </div>
+      </div>
+
+      <!-- TIME SLOTS -->
+      <div class="form-group">
+        <div class="time-label">Available Time Slots</div>
+        <div class="time-slots">
+          <div class="time-slot" data-time="12:00 PM">12:00 PM</div>
+          <div class="time-slot" data-time="12:30 PM">12:30 PM</div>
+          <div class="time-slot unavailable" data-time="1:00 PM">1:00 PM</div>
+          <div class="time-slot" data-time="1:30 PM">1:30 PM</div>
+          <div class="time-slot" data-time="2:00 PM">2:00 PM</div>
+          <div class="time-slot unavailable" data-time="2:30 PM">2:30 PM</div>
+          <div class="time-slot" data-time="7:00 PM">7:00 PM</div>
+          <div class="time-slot" data-time="7:30 PM">7:30 PM</div>
+          <div class="time-slot" data-time="8:00 PM">8:00 PM</div>
+          <div class="time-slot unavailable" data-time="8:30 PM">8:30 PM</div>
+          <div class="time-slot" data-time="9:00 PM">9:00 PM</div>
+          <div class="time-slot" data-time="9:30 PM">9:30 PM</div>
+        </div>
+      </div>
+
+      <!-- TABLE PREFERENCE -->
+      <div class="form-group">
+        <label>Seating Preference</label>
+        <div class="table-pref">
+          <button class="pref-btn" data-pref="Indoor">&#127968; Indoor</button>
+          <button class="pref-btn" data-pref="Outdoor">&#127807; Outdoor</button>
+          <button class="pref-btn" data-pref="Window">&#129695; Window Side</button>
+          <button class="pref-btn" data-pref="Private">&#128274; Private Room</button>
+          <button class="pref-btn" data-pref="Any">&#10003; No Preference</button>
+        </div>
+      </div>
+
+      <!-- SPECIAL REQUESTS -->
+      <div class="form-group">
+        <label>Special Requests</label>
+        <textarea id="special-req" placeholder="Dietary requirements, special arrangements, allergies..."></textarea>
+      </div>
+
+      <button class="submit-btn" onclick="submitReservation()">Confirm Reservation</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: INFO -->
+  <div class="info-side">
+    <h2>Restaurant Info</h2>
+    <img class="restaurant-img" src="https://png.pngtree.com/thumb_back/fh260/background/20240522/pngtree-abstract-blur-coffee-shop-or-cafe-restaurant-interior-image_15683716.jpg" alt="Pantry Junction Interior">
+
+    <div class="info-card">
+      <h3>&#128205; Location &amp; Hours</h3>
+      <div class="info-row">
+        <span class="info-icon">&#128205;</span>
+        <span class="info-text">255601, Narasaraopet,<br>Andhra Pradesh, INDIA</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">&#128336;</span>
+        <span class="info-text"><strong>Lunch:</strong> 12:00 PM &ndash; 3:00 PM</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">&#127769;</span>
+        <span class="info-text"><strong>Dinner:</strong> 7:00 PM &ndash; 11:00 PM</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">&#128222;</span>
+        <span class="info-text">+1 78674527990</span>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>&#8505;&#65039; Reservation Policy</h3>
+      <div class="info-row">
+        <span class="info-icon">&#9989;</span>
+        <span class="info-text">Bookings are confirmed via phone call within 30 minutes.</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">&#9201;</span>
+        <span class="info-text">Please arrive within 15 minutes of your reservation time.</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">&#128101;</span>
+        <span class="info-text">For parties of 8 or more, please call us directly.</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">&#10060;</span>
+        <span class="info-text">Cancellations must be made at least 2 hours in advance.</span>
+      </div>
+    </div>
+
+    <div class="floor-plan">
+      <h3>&#129681; Table Availability (Today)</h3>
+      <div class="floor-grid">
+        <div class="table-tile available"><div class="table-num">T-01</div><div class="table-seats">2 &#128101;</div></div>
+        <div class="table-tile occupied"><div class="table-num">T-02</div><div class="table-seats">4 &#128101;</div></div>
+        <div class="table-tile available"><div class="table-num">T-03</div><div class="table-seats">4 &#128101;</div></div>
+        <div class="table-tile occupied"><div class="table-num">T-04</div><div class="table-seats">6 &#128101;</div></div>
+        <div class="table-tile available"><div class="table-num">T-05</div><div class="table-seats">2 &#128101;</div></div>
+        <div class="table-tile available"><div class="table-num">T-06</div><div class="table-seats">2 &#128101;</div></div>
+        <div class="table-tile occupied"><div class="table-num">T-07</div><div class="table-seats">4 &#128101;</div></div>
+        <div class="table-tile available"><div class="table-num">T-08</div><div class="table-seats">8 &#128101;</div></div>
+      </div>
+      <div class="floor-legend">
+        <div class="legend-item"><div class="legend-dot avail"></div> Available</div>
+        <div class="legend-item"><div class="legend-dot occ"></div> Occupied</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONFIRMATION MODAL ===== -->
+<div class="modal-overlay" id="res-modal">
+  <div class="modal">
+    <div class="icon">&#127860;&#65039;</div>
+    <h2>Reservation Confirmed!</h2>
+    <p>Your table at <strong>Pantry Junction</strong> has been reserved.</p>
+    <div class="booking-ref" id="booking-ref">REF: PJ-000000</div>
+    <div class="modal-detail" id="booking-detail"></div>
+    <p>We will call you to confirm your booking within 30 minutes. See you soon!</p>
+    <button class="modal-close" onclick="closeResModal()">Wonderful, Thank You!</button>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>Address</h3>
+      <p>255601<br>Narasaraopet, Andhra Pradesh<br>INDIA</p>
+    </div>
+    <div class="footer-section">
+      <h3>Info</h3>
+      <p>Support: support@pantryjunction.com<br>Phone: +1 78674527990</p>
+    </div>
+    <div class="footer-section">
+      <h3>Follow Us</h3>
+      <p>Connect with us on social media</p>
+      <div class="social-icons">
+        <a href="#">f</a>
+        <a href="#">&#x1F426;</a>
+        <a href="#">&#x25B6;</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">&copy; 2026 Pantry Junction Restaurant. All Rights Reserved.</div>
+</footer>
+
+<script>
+  // Set min date to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('res-date').min = today;
+  document.getElementById('res-date').value = today;
+
+  let selectedGuests = null;
+  let selectedTime = null;
+  let selectedPref = null;
+
+  document.querySelectorAll('.guest-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.guest-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedGuests = btn.dataset.guests;
+    });
+  });
+
+  document.querySelectorAll('.time-slot:not(.unavailable)').forEach(slot => {
+    slot.addEventListener('click', () => {
+      document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+      slot.classList.add('selected');
+      selectedTime = slot.dataset.time;
+    });
+  });
+
+  document.querySelectorAll('.pref-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pref-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedPref = btn.dataset.pref;
+    });
+  });
+
+  function submitReservation() {
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const date  = document.getElementById('res-date').value;
+    if (!fname || !lname || !email || !phone) { alert('Please fill in your name, email, and phone number.'); return; }
+    if (!date)           { alert('Please select a date for your reservation.'); return; }
+    if (!selectedGuests) { alert('Please select the number of guests.'); return; }
+    if (!selectedTime)   { alert('Please select an available time slot.'); return; }
+
+    const ref = 'PJ-' + Math.floor(100000 + Math.random() * 900000);
+    document.getElementById('booking-ref').textContent = 'REF: ' + ref;
+
+    const formattedDate = new Date(date + 'T00:00:00').toLocaleDateString('en-IN', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+    const occasion = document.getElementById('occasion').value;
+
+    document.getElementById('booking-detail').innerHTML =
+      '<div><span>Name</span><span>'    + fname + ' ' + lname + '</span></div>' +
+      '<div><span>Date</span><span>'    + formattedDate + '</span></div>' +
+      '<div><span>Time</span><span>'    + selectedTime + '</span></div>' +
+      '<div><span>Guests</span><span>'  + selectedGuests + '</span></div>' +
+      (selectedPref ? '<div><span>Seating</span><span>'   + selectedPref + '</span></div>' : '') +
+      (occasion     ? '<div><span>Occasion</span><span>'  + occasion     + '</span></div>' : '');
+
+    document.getElementById('res-modal').classList.add('show');
+
+    // Save reservation to user history
+    saveReservationToHistory({
+      ref,
+      date,
+      time: selectedTime,
+      guests: selectedGuests,
+      preference: selectedPref,
+      occasion,
+      createdAt: new Date().toISOString(),
+    });
+  }
+
+  function closeResModal() {
+    document.getElementById('res-modal').classList.remove('show');
+    resetReservationForm();
+  }
+
+  function resetReservationForm() {
+    // Clear all inputs after reservation is confirmed
+    document.getElementById('fname').value = '';
+    document.getElementById('lname').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('phone').value = '';
+    document.getElementById('res-date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('occasion').value = '';
+    document.getElementById('special-req').value = '';
+
+    selectedGuests = null;
+    selectedTime = null;
+    selectedPref = null;
+
+    document.querySelectorAll('.guest-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+    document.querySelectorAll('.pref-btn').forEach(b => b.classList.remove('selected'));
+  }
+
+  function saveReservationToHistory(reservation) {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    const email = user && user.email ? user.email.toLowerCase().trim() : 'guest';
+    const allReservations = JSON.parse(localStorage.getItem('userReservations') || '{}');
+    allReservations[email] = allReservations[email] || [];
+    allReservations[email].push(reservation);
+    localStorage.setItem('userReservations', JSON.stringify(allReservations));
+  }
+
+  /* ---- Profile ---- */
+  function checkLoginStatus() {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    const profilePic    = document.getElementById('profilePic');
+    const mobileProfile = document.getElementById('mobileProfileSection');
+    if (user) {
+      profilePic.textContent = (user.name || user.email).charAt(0).toUpperCase();
+      document.getElementById('loggedOutContent').style.display = 'none';
+      document.getElementById('loggedInContent').style.display  = 'block';
+      document.getElementById('userName').textContent  = user.name  || 'User';
+      document.getElementById('userEmail').textContent = user.email || '';
+      if (mobileProfile) mobileProfile.innerHTML =
+        '<p class="m-user">Hi, ' + (user.name || 'User') + '</p>' +
+        '<button class="m-btn" onclick="window.location.href=\'profile.html\'">View Profile</button>' +
+        '<button class="m-btn" onclick="logout()">Logout</button>';
+
+      // Auto-fill reservation form
+      const nameParts = (user.name || '').split(' ');
+      document.getElementById('fname').value = nameParts[0] || '';
+      document.getElementById('lname').value = nameParts.slice(1).join(' ') || '';
+      document.getElementById('email').value = user.email || '';
+      document.getElementById('phone').value = user.phone || '';
+    } else {
+      profilePic.textContent = '\u{1F464}';
+      document.getElementById('loggedOutContent').style.display = 'block';
+      document.getElementById('loggedInContent').style.display  = 'none';
+      if (mobileProfile) mobileProfile.innerHTML =
+        '<button class="m-btn" onclick="window.location.href=\'login.html\'">Login</button>' +
+        '<button class="m-btn" onclick="window.location.href=\'signup.html\'">Sign Up</button>';
+    }
+  }
+
+  function toggleProfileDropdown() {
+    document.getElementById('profileDropdown').classList.toggle('show');
+  }
+
+  function logout() {
+    localStorage.removeItem('currentUser');
+    location.reload();
+  }
+
+  /* Close desktop dropdown on outside click */
+  document.addEventListener('click', function(e) {
+    const ps = document.querySelector('#desktopNav .profile-section');
+    const dd = document.getElementById('profileDropdown');
+    if (ps && !ps.contains(e.target) && dd) dd.classList.remove('show');
+  });
+
+  /* Mobile overlay */
+  document.getElementById('hamburgerBtn').addEventListener('click', function() {
+    document.getElementById('mobileOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  document.getElementById('closeBtn').addEventListener('click', function() {
+    document.getElementById('mobileOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  });
+  document.querySelectorAll('#mobileOverlay .mobile-links a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      document.getElementById('mobileOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', checkLoginStatus);
+</script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pantry Junction - Contact</title>
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5gEyvX1yEbtIbQyXfOfrXGFwfi47Qs74ysA&s">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0f0f10;
+      --card: #141416;
+      --muted: #d4a574;
+      --accent: #e85b2a;
+      --accent-dark: #cf4d20;
+      --white: #ffffff;
+      --max-width: 1100px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--white); -webkit-font-smoothing: antialiased; }
+    .main-container { max-width: var(--max-width); margin: 0 auto; padding: 28px; }
+
+    /* ===== NAVBAR ===== */
+    header { display: flex; justify-content: space-between; align-items: center; background-color: #1a1a1a; padding: 15px 50px; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+    .logo { letter-spacing: 3px; font-size: 28px; font-weight: bold; color: #d4a574; text-transform: uppercase; }
+
+    /* Desktop nav */
+    #desktopNav { display: flex; gap: 40px; align-items: center; }
+    #desktopNav a { text-decoration: none; color: #fff; padding: 10px 15px; transition: all 0.3s; font-size: 14px; font-weight: 500; text-transform: uppercase; }
+    #desktopNav a:hover, #desktopNav a.active { color: #d4a574; border-bottom: 2px solid #d4a574; }
+
+    /* Profile */
+    .profile-section { position: relative; display: flex; align-items: center; }
+    .profile-pic { width: 40px; height: 40px; border-radius: 50%; background: #d4a574; display: flex; align-items: center; justify-content: center; color: #1a1a1a; font-weight: bold; font-size: 18px; cursor: pointer; transition: all 0.3s; }
+    .profile-pic:hover { transform: scale(1.1); }
+    .profile-dropdown { position: absolute; top: 55px; right: 0; background: #1a1a1a; border: 1px solid #d4a574; border-radius: 8px; padding: 20px; min-width: 250px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); display: none; z-index: 1000; }
+    .profile-dropdown.show { display: block; }
+    .profile-dropdown h3 { color: #d4a574; margin-bottom: 15px; font-size: 18px; }
+    .profile-dropdown p { margin: 8px 0; font-size: 14px; color: #fff; }
+    .profile-dropdown .btn { background: #d4a574; color: #1a1a1a; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 4px 0; display: block; width: 100%; transition: background 0.2s; }
+    .profile-dropdown .btn:hover { background: #b8945f; }
+
+    /* Hamburger */
+    .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 6px; }
+    .hamburger svg { display: block; }
+
+    /* Mobile overlay */
+    .mobile-overlay { display: none; position: fixed; inset: 0; background: #1a1a1a; z-index: 300; flex-direction: column; align-items: center; padding-top: 75px; gap: 6px; overflow-y: auto; }
+    .mobile-overlay.open { display: flex; }
+    .overlay-top { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 14px 22px; background: #1a1a1a; border-bottom: 1px solid #2a2a2a; }
+    .overlay-logo { font-size: 20px; font-weight: bold; color: #d4a574; letter-spacing: 2px; text-transform: uppercase; }
+    .overlay-close { background: none; border: none; color: #d4a574; font-size: 28px; cursor: pointer; line-height: 1; }
+    .mobile-overlay .mobile-links { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 100%; margin-top: 10px; }
+    .mobile-overlay .mobile-links a { text-decoration: none; color: #fff; font-size: 19px; font-weight: 500; text-transform: uppercase; padding: 13px 32px; width: 270px; text-align: center; border-radius: 8px; transition: background 0.2s, color 0.2s; }
+    .mobile-overlay .mobile-links a:hover, .mobile-overlay .mobile-links a.active { background: rgba(212,165,116,0.15); color: #d4a574; }
+    .mobile-profile { margin-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; padding-bottom: 30px; }
+    .m-user { color: #d4a574; font-size: 16px; font-weight: bold; }
+    .m-btn { background: #d4a574; color: #1a1a1a; border: none; padding: 10px 0; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; width: 200px; transition: background 0.2s; }
+    .m-btn:hover { background: #b8945f; }
+
+    /* ===== CONTACT CONTENT ===== */
+    .hero { padding: 44px 0 28px; display: flex; gap: 28px; align-items: center; justify-content: center; }
+    .hero-left { flex: 1; text-align: center; }
+    .page-title { font-size: 34px; margin: 0 0 8px; color: var(--white); }
+    .lead { color: var(--muted); margin: 0 0 18px; line-height: 1.6; }
+
+    .card-row { display: grid; grid-template-columns: 1fr 420px; gap: 28px; margin-top: 18px; }
+    .card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius: 10px; padding: 22px; box-shadow: 0 6px 20px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.03); }
+
+    /* Form */
+    form .field { display: flex; flex-direction: column; margin-bottom: 12px; }
+    label { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+    input[type="text"], input[type="email"], textarea { background: var(--card); border: 1px solid rgba(255,255,255,0.06); padding: 12px; border-radius: 8px; color: var(--white); outline: none; font-family: inherit; font-size: 14px; transition: border-color 0.2s; }
+    input[type="text"]:focus, input[type="email"]:focus, textarea:focus { border-color: var(--muted); }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.5); }
+    textarea { min-height: 140px; resize: vertical; }
+    .send-btn { display: inline-block; background: linear-gradient(180deg, var(--accent), var(--accent-dark)); color: #fff; padding: 12px 18px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; font-size: 14px; transition: opacity 0.2s; }
+    .send-btn:hover { opacity: 0.88; }
+
+    /* Info side */
+    .map { width: 100%; height: 220px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.03); margin-bottom: 16px; }
+    .map iframe { width: 100%; height: 100%; border: 0; }
+    .info-list { display: flex; flex-direction: column; gap: 12px; }
+    .info-item { display: flex; gap: 12px; align-items: flex-start; }
+    .info-icon { width: 40px; height: 40px; border-radius: 8px; background: rgba(255,255,255,0.03); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 16px; flex-shrink: 0; }
+    .info-body { color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .info-body strong { color: var(--white); }
+
+    .page-footer { padding: 28px 0; color: var(--white); text-align: center; margin-top: 28px; font-size: 13px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 920px) { .card-row { grid-template-columns: 1fr; } .hero { flex-direction: column; } }
+    @media (max-width: 768px) {
+      header { padding: 12px 20px; }
+      .logo { font-size: 20px; letter-spacing: 1px; }
+      #desktopNav { display: none; }
+      .hamburger { display: block; }
+      .main-container { padding: 16px; }
+      .hero { padding: 28px 0 16px; }
+      .page-title { font-size: 26px; }
+    }
+    @media (max-width: 480px) {
+      .page-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="logo">PJ-Restaurant</div>
+
+    <!-- Desktop nav -->
+    <nav id="desktopNav">
+      <a href="index.html">Home</a>
+      <a href="order.html">Order</a>
+      <a href="table_booking.html">Table Booking</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="active">Contact</a>
+      <div class="profile-section">
+        <div class="profile-pic" id="profilePic" onclick="toggleProfileDropdown()">&#128100;</div>
+        <div class="profile-dropdown" id="profileDropdown">
+          <div id="loggedOutContent">
+            <h3>Welcome!</h3>
+            <p>Please login to access your profile</p>
+            <button class="btn" onclick="window.location.href='login.html'">Login</button>
+            <button class="btn" onclick="window.location.href='signup.html'">Sign Up</button>
+          </div>
+          <div id="loggedInContent" style="display:none;">
+            <h3 id="userName">User</h3>
+            <p id="userEmail">user@example.com</p>
+            <button class="btn" onclick="window.location.href='profile.html'">View Profile</button>
+            <button class="btn" onclick="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hamburger (mobile only) -->
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect y="6"  width="30" height="3" rx="1.5" fill="#d4a574"/>
+        <rect y="13" width="30" height="3" rx="1.5" fill="#d4a574"/>
+        <rect y="20" width="30" height="3" rx="1.5" fill="#d4a574"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- ===== MOBILE OVERLAY ===== -->
+  <div class="mobile-overlay" id="mobileOverlay">
+    <div class="overlay-top">
+      <span class="overlay-logo">PJ-Restaurant</span>
+      <button class="overlay-close" id="closeBtn" aria-label="Close menu">&#10005;</button>
+    </div>
+    <div class="mobile-links">
+      <a href="index.html">Home</a>
+      <a href="order.html">Order</a>
+      <a href="table_booking.html">Table Booking</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+    <div class="mobile-profile" id="mobileProfileSection"></div>
+  </div>
+
+  <!-- ===== PAGE CONTENT ===== -->
+  <main class="main-container">
+    <section class="hero">
+      <div class="hero-left">
+        <h1 class="page-title">CONTACT US</h1>
+        <br>
+        <p class="lead">We'd love to hear from you. For reservations, private events or general inquiries use the form or the contact details below.</p>
+      </div>
+    </section>
+
+    <div class="card-row">
+      <!-- Contact Form -->
+      <div class="card">
+        <form id="contactForm" novalidate>
+          <div style="display:flex;gap:12px;margin-bottom:12px;">
+            <div style="flex:1" class="field">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" placeholder="Your full name" required>
+            </div>
+            <div style="width:160px" class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="text" placeholder="+91 XXXXXXXX">
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+          </div>
+          <div style="display:flex;gap:14px;align-items:center;margin-top:10px">
+            <button type="submit" class="send-btn">Send Message</button>
+            <span style="color:var(--muted);font-size:13px">Or call <strong style="color:var(--white)">+1 78674527990</strong></span>
+          </div>
+        </form>
+      </div>
+
+      <!-- Info Side -->
+      <aside class="card">
+        <div style="margin-bottom:14px">
+          <h3 style="margin:0 0 6px;color:#d4a574;">Our Location</h3>
+          <p style="color:var(--muted);font-size:13px;">Come visit or send us a message &mdash; we will help.</p>
+        </div>
+        <div class="map">
+          <iframe
+            src="https://www.google.com/maps?q=Narasaraopet,+Andhra+Pradesh,+India&z=15&output=embed"
+            allowfullscreen loading="lazy">
+          </iframe>
+        </div>
+        <div class="info-list">
+          <div class="info-item">
+            <div class="info-icon"><i class="fas fa-clock"></i></div>
+            <div class="info-body"><strong>Opening Hours</strong><br>Mon &ndash; Sun: 10:00 AM &ndash; 11:00 PM</div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="info-body"><strong>Address</strong><br>255601, Narasaraopet, Andhra Pradesh, INDIA</div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon"><i class="fas fa-phone"></i></div>
+            <div class="info-body"><strong>Phone</strong><br>+1 78674527990</div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon"><i class="fas fa-envelope"></i></div>
+            <div class="info-body"><strong>Email</strong><br>info@pantryjunction.com</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="page-footer">
+      &copy; <span id="year"></span> Pantry Junction &mdash; All rights reserved.
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var name  = document.getElementById('name').value.trim();
+      var email = document.getElementById('email').value.trim();
+      var msg   = document.getElementById('message').value.trim();
+      if (!name || !email || !msg) { alert('Please fill in all required fields.'); return; }
+      alert('Thank you \u2014 your message has been sent!');
+      this.reset();
+    });
+
+    /* ---- Profile ---- */
+    function checkLoginStatus() {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      const profilePic    = document.getElementById('profilePic');
+      const mobileProfile = document.getElementById('mobileProfileSection');
+      if (user) {
+        profilePic.textContent = (user.name || user.email).charAt(0).toUpperCase();
+        document.getElementById('loggedOutContent').style.display = 'none';
+        document.getElementById('loggedInContent').style.display  = 'block';
+        document.getElementById('userName').textContent  = user.name  || 'User';
+        document.getElementById('userEmail').textContent = user.email || '';
+        if (mobileProfile) mobileProfile.innerHTML =
+          '<p class="m-user">Hi, ' + (user.name || 'User') + '</p>' +
+          '<button class="m-btn" onclick="window.location.href=\'profile.html\'">View Profile</button>' +
+          '<button class="m-btn" onclick="logout()">Logout</button>';
+      } else {
+        profilePic.textContent = '\u{1F464}';
+        document.getElementById('loggedOutContent').style.display = 'block';
+        document.getElementById('loggedInContent').style.display  = 'none';
+        if (mobileProfile) mobileProfile.innerHTML =
+          '<button class="m-btn" onclick="window.location.href=\'login.html\'">Login</button>' +
+          '<button class="m-btn" onclick="window.location.href=\'signup.html\'">Sign Up</button>';
+      }
+    }
+
+    function toggleProfileDropdown() {
+      document.getElementById('profileDropdown').classList.toggle('show');
+    }
+
+    function logout() {
+      localStorage.removeItem('currentUser');
+      location.reload();
+    }
+
+    /* Close desktop dropdown on outside click */
+    document.addEventListener('click', function(e) {
+      const ps = document.querySelector('#desktopNav .profile-section');
+      const dd = document.getElementById('profileDropdown');
+      if (ps && !ps.contains(e.target) && dd) dd.classList.remove('show');
+    });
+
+    /* Mobile overlay */
+    document.getElementById('hamburgerBtn').addEventListener('click', function() {
+      document.getElementById('mobileOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+    document.getElementById('closeBtn').addEventListener('click', function() {
+      document.getElementById('mobileOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    });
+    document.querySelectorAll('#mobileOverlay .mobile-links a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        document.getElementById('mobileOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', checkLoginStatus);
+  </script>
+</body>
+</html>
