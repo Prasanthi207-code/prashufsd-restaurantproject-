@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Order</title>
+</head>
+<body>
+
+<h2>Test Order</h2>
+
+<button onclick="placeOrder()">Place Test Order</button>
+
+<pre id="result"></pre>
+
+<script>
+
+async function placeOrder() {
+
+    const orderData = {
+        user_id: 1,
+        items: [
+            {
+                item_id: 1,
+                quantity: 2
+            }
+        ],
+        delivery_address: "Rajahmundry"
+    };
+
+    try {
+
+        const response = await fetch("http://localhost:5000/orders", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(orderData)
+        });
+
+        const result = await response.json();
+
+        document.getElementById("result").textContent =
+            JSON.stringify(result, null, 2);
+
+    } catch (error) {
+
+        document.getElementById("result").textContent =
+            "ERROR: " + error.message;
+    }
+}
+
+</script>
+
+</body>
+</html>

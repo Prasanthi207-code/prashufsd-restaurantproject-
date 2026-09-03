@@ -18,35 +18,43 @@
     html{scroll-behavior:smooth}
     body{min-height:100vh;background:var(--black);color:var(--text);font-family:var(--ff-body);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
 
-    /* ===== NAVBAR ===== */
-    header { display:flex; justify-content:space-between; align-items:center; background-color:#1a1a1a; padding:15px 50px; position:sticky; top:0; z-index:200; box-shadow:0 2px 10px rgba(0,0,0,0.3); }
-    .logo { letter-spacing:3px; font-size:28px; font-weight:bold; color:#d4a574; text-transform:uppercase; text-decoration:none; }
-    #desktopNav { display:flex; gap:40px; align-items:center; }
-    #desktopNav a { text-decoration:none; color:#fff; padding:10px 15px; transition:all 0.3s; font-size:14px; font-weight:500; text-transform:uppercase; }
-    #desktopNav a:hover, #desktopNav a.active { color:#d4a574; border-bottom:2px solid #d4a574; }
-    .profile-section { position:relative; display:flex; align-items:center; }
-    .profile-pic { width:40px; height:40px; border-radius:50%; background:#d4a574; display:flex; align-items:center; justify-content:center; color:#1a1a1a; font-weight:bold; font-size:18px; cursor:pointer; transition:all 0.3s; }
-    .profile-pic:hover { transform:scale(1.1); }
-    .profile-dropdown { position:absolute; top:55px; right:0; background:#1a1a1a; border:1px solid #d4a574; border-radius:8px; padding:20px; min-width:250px; box-shadow:0 4px 20px rgba(0,0,0,0.5); display:none; z-index:1000; }
-    .profile-dropdown.show { display:block; }
-    .profile-dropdown h3 { color:#d4a574; margin-bottom:15px; font-size:18px; }
-    .profile-dropdown p { margin:8px 0; font-size:14px; color:#fff; }
-    .profile-dropdown .btn { background:#d4a574; color:#1a1a1a; border:none; padding:8px 16px; border-radius:4px; cursor:pointer; font-weight:bold; margin:4px 0; display:block; width:100%; transition:background 0.2s; }
-    .profile-dropdown .btn:hover { background:#b8945f; }
-    .hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; }
-    .hamburger svg { display:block; }
-    .mobile-overlay { display:none; position:fixed; inset:0; background:#1a1a1a; z-index:300; flex-direction:column; align-items:center; padding-top:75px; gap:6px; overflow-y:auto; }
-    .mobile-overlay.open { display:flex; }
-    .overlay-top { position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center; padding:14px 22px; background:#1a1a1a; border-bottom:1px solid #2a2a2a; }
-    .overlay-logo { font-size:20px; font-weight:bold; color:#d4a574; letter-spacing:2px; text-transform:uppercase; }
-    .overlay-close { background:none; border:none; color:#d4a574; font-size:28px; cursor:pointer; line-height:1; }
-    .mobile-overlay .mobile-links { display:flex; flex-direction:column; align-items:center; gap:4px; width:100%; margin-top:10px; }
-    .mobile-overlay .mobile-links a { text-decoration:none; color:#fff; font-size:19px; font-weight:500; text-transform:uppercase; padding:13px 32px; width:270px; text-align:center; border-radius:8px; transition:background 0.2s,color 0.2s; }
-    .mobile-overlay .mobile-links a:hover, .mobile-overlay .mobile-links a.active { background:rgba(212,165,116,0.15); color:#d4a574; }
-    .mobile-profile { margin-top:24px; display:flex; flex-direction:column; align-items:center; gap:10px; width:100%; padding-bottom:30px; }
-    .m-user { color:#d4a574; font-size:16px; font-weight:bold; }
-    .m-btn { background:#d4a574; color:#1a1a1a; border:none; padding:10px 0; border-radius:6px; font-size:15px; font-weight:bold; cursor:pointer; width:200px; transition:background 0.2s; }
-    .m-btn:hover { background:#b8945f; }
+    /* ===== AUTH HEADER ===== */
+    html {
+      font-size: 17px;
+    }
+    .auth-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background: rgba(26,26,26,0.98);
+      padding: 16px 24px;
+      min-height: 74px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+      border-bottom: 1px solid rgba(212,165,116,0.18);
+    }
+    .back-arrow {
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(212,165,116,0.5);
+      border-radius: 50%;
+      background: rgba(212,165,116,0.12);
+      color: #d4a574;
+      font-size: 1.3rem;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+      padding: 0;
+    }
+    .back-arrow:hover {
+      background: rgba(212,165,116,0.18);
+      transform: translateX(-2px);
+    }
 
     /* ── AUTH LAYOUT ── */
     .auth-page{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 20px;background:linear-gradient(160deg, #141414 0%, #1e1e1e 45%, #141414 100%);position:relative;overflow:hidden}
@@ -87,7 +95,7 @@
     .btn-google svg{width:18px;height:18px;flex-shrink:0}
 
     .switch-link{text-align:center;margin-top:22px;font-size:13px;color:var(--muted)}
-    .switch-link span{color:var(--gold);cursor:pointer;font-weight:600;transition:color .2s;border-bottom:1px solid transparent}
+    .switch-link span{color:var(--gold);cursor:pointer;font-weight:600;transition:color .2s;border-bottom:1px solid transparent;display:inline-block;padding:2px 0}
     .switch-link span:hover{color:var(--gold-lt);border-bottom-color:var(--gold-lt)}
 
     /* Toast */
@@ -107,55 +115,11 @@
 </head>
 <body>
 
-<header>
-  <a class="logo" href="index.html">PJ-Restaurant</a>
-  <nav id="desktopNav">
-    <a href="index.html">Home</a>
-    <a href="order.html">Order</a>
-    <a href="table_booking.html">Table Booking</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <div class="profile-section">
-      <div class="profile-pic" id="profilePic" onclick="toggleProfileDropdown()">&#128100;</div>
-      <div class="profile-dropdown" id="profileDropdown">
-        <div id="loggedOutContent">
-          <h3>Welcome</h3>
-          <p>Sign in to access your profile</p>
-          <button class="btn" onclick="window.location.href='login.html'">Login</button>
-          <button class="btn outline" onclick="window.location.href='signup.html'">Sign Up</button>
-        </div>
-        <div id="loggedInContent" style="display:none;">
-          <h3 id="userName">User</h3>
-          <p id="userEmail">user@example.com</p>
-          <button class="btn" onclick="window.location.href='profile.html'">View Profile</button>
-          <button class="btn outline" onclick="logout()">Logout</button>
-        </div>
-      </div>
-    </div>
-  </nav>
-  <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
-    <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
-      <rect y="0" width="24" height="2" rx="1" fill="#d4a574"/>
-      <rect y="8" width="24" height="2" rx="1" fill="#d4a574"/>
-      <rect y="16" width="24" height="2" rx="1" fill="#d4a574"/>
-    </svg>
+<header class="auth-header">
+  <button class="back-arrow" type="button" aria-label="Go back" onclick="if (window.history.length > 1) { history.back(); } else { window.location.href = 'index.html'; }">
+    ←
   </button>
 </header>
-
-<div class="mobile-overlay" id="mobileOverlay">
-  <div class="overlay-top">
-    <span class="overlay-logo">Pantry Junction</span>
-    <button class="overlay-close" id="closeBtn">&#10005;</button>
-  </div>
-  <nav class="mobile-links">
-    <a href="index.html">Home</a>
-    <a href="order.html">Order</a>
-    <a href="table_booking.html">Table Booking</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-  <div class="mobile-profile" id="mobileProfileSection"></div>
-</div>
 
 <!-- AUTH PAGE -->
 <main class="auth-page">
@@ -169,7 +133,7 @@
     <!-- LOGIN FORM -->
     <div class="form-box" id="loginBox">
       <div class="form-title">Welcome Back</div>
-      <form id="loginForm" onsubmit="handleLogin(event)" novalidate>
+      <form id="loginForm" onsubmit="handleLoginForm(event)" novalidate>
         <div class="field">
           <label>Email Address</label>
           <input type="email" id="loginEmail" placeholder="you@example.com" required>
@@ -199,7 +163,7 @@
     <!-- SIGNUP FORM -->
     <div class="form-box" id="signupBox" style="display:none;">
       <div class="form-title">Create Account</div>
-      <form id="signupForm" onsubmit="handleSignup(event)" novalidate>
+      <form id="signupForm" onsubmit="handleSignupForm(event)" novalidate>
         <div class="field">
           <label>Full Name</label>
           <input type="text" id="signupName" placeholder="Your full name" required>
@@ -232,6 +196,7 @@
 
 <div id="toast"></div>
 
+<script src="auth.js"></script>
 <script>
   function showToast(msg,duration=3000){
     const t=document.getElementById('toast');
@@ -239,92 +204,85 @@
     setTimeout(()=>t.classList.remove('show'),duration);
   }
 
-  function mergeGuestOrdersInto(email) {
-    if (!email) return;
-    const key = email.toLowerCase().trim();
-    const allOrders = JSON.parse(localStorage.getItem('userOrders') || '{}');
-    const guestOrders = allOrders.guest || [];
-    if (!guestOrders.length) return;
-
-    allOrders[key] = (allOrders[key] || []).concat(guestOrders);
-    delete allOrders.guest;
-    localStorage.setItem('userOrders', JSON.stringify(allOrders));
-    showToast('✅ Your recent guest orders have been moved to your profile.');
-  }
-
   function showSignup(){
     document.getElementById('loginBox').style.display='none';
     document.getElementById('signupBox').style.display='block';
     window.scrollTo({top:0,behavior:'smooth'});
+    return false;
   }
   function showLogin(){
     document.getElementById('signupBox').style.display='none';
     document.getElementById('loginBox').style.display='block';
     window.scrollTo({top:0,behavior:'smooth'});
+    return false;
   }
-  function handleLogin(e){
-    e.preventDefault();
-    const email=document.getElementById('loginEmail').value.trim();
-    const pw=document.getElementById('loginPassword').value;
-    if(!email||!pw){showToast('⚠️ Please fill in all fields.');return;}
-    const users=JSON.parse(localStorage.getItem('users')||'[]');
-    const found=users.find(u=>u.email===email&&u.password===pw);
-    if(!found){showToast('⚠️ Invalid email or password.');return;}
-    const normalizedEmail = found.email.toLowerCase().trim();
-    localStorage.setItem('currentUser',JSON.stringify({
-      name: found.name,
-      email: normalizedEmail,
-      phone: found.phone,
-      address: found.address,
-      memberSince: found.memberSince,
-      avatarImage: found.avatarImage || defaultAvatarImage
-    }));
-    mergeGuestOrdersInto(normalizedEmail);
-    showToast('✅ Login successful! Redirecting…');
-    setTimeout(()=>window.location.href='order.html',1500);
+
+  async function handleLoginForm(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    if (!email || !password) {
+        showToast("⚠️ Please enter email and password.");
+        return;
+    }
+
+    showToast("🔄 Logging in...");
+    
+    const result = await window.handleLogin(email, password);
+    
+    if (result.success) {
+        showToast('✅ Login successful! Redirecting…');
+        setTimeout(() => { window.location.href = 'index.html'; }, 500);
+    } else {
+        showToast('❌ ' + result.message);
+    }
   }
-  function handleSignup(e){
+
+  async function handleSignupForm(e){
     e.preventDefault();
     const name=document.getElementById('signupName').value.trim();
     const email=document.getElementById('signupEmail').value.trim();
     const phone=document.getElementById('signupPhone').value.trim();
     const address=document.getElementById('signupAddress').value.trim();
     const pw=document.getElementById('signupPassword').value;
-    if(!name||!email||!phone||!address||!pw){showToast('⚠️ Please fill in all fields.');return;}
-    if(pw.length<6){showToast('⚠️ Password must be at least 6 characters.');return;}
-    let users=JSON.parse(localStorage.getItem('users')||'[]');
-    if(users.some(u=>u.email===email)){showToast('⚠️ Email already registered. Please login.');return;}
-    const memberSince=new Date().toISOString();
-    users.push({name,email,phone,address,password:pw,memberSince,avatarImage:defaultAvatarImage});
-    localStorage.setItem('users',JSON.stringify(users));
-    const normalizedEmail = email.toLowerCase().trim();
-    localStorage.setItem('currentUser',JSON.stringify({
-      name,
-      email: normalizedEmail,
-      phone,
-      address,
-      memberSince,
-      avatarImage: defaultAvatarImage
-    }));
-    mergeGuestOrdersInto(normalizedEmail);
-    showToast('✅ Account created! Redirecting…');
-    setTimeout(()=>window.location.href='order.html',1500);
-  }
-  const defaultAvatarImage = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80';
-
-  function getStoredAvatar() {
-    const user = JSON.parse(localStorage.getItem('currentUser')) || {};
-    return user.avatarImage || user.avatarEmoji || localStorage.getItem('userAvatarImage') || localStorage.getItem('userAvatar');
-  }
-
-  function setAvatarElement(el, avatarValue) {
-    if (!el) return;
-    const isImage = typeof avatarValue === 'string' && (avatarValue.startsWith('data:image') || avatarValue.startsWith('http'));
-    if (isImage) {
-      el.innerHTML = '<img src="' + avatarValue + '" alt="Profile avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />';
-    } else {
-      el.textContent = avatarValue || '👤';
+    
+    if(!name||!email||!phone||!address||!pw){
+      showToast('⚠️ Please fill in all fields.');
+      return;
     }
+    
+    if(pw.length<6){
+      showToast('⚠️ Password must be at least 6 characters.');
+      return;
+    }
+
+    showToast("🔄 Creating account...");
+    
+    const result = await window.handleSignup(name, email, phone, address, pw);
+    
+    if (result.success) {
+        showToast('✅ Account created! Redirecting…');
+        setTimeout(()=>window.location.href='index.html', 500);
+    } else {
+        showToast('❌ ' + result.message);
+    }
+  }
+
+  const defaultAvatarImage = 'U';
+
+  function getUserInitial(name) {
+    const safeName = (name || 'User').trim();
+    return safeName ? safeName.charAt(0).toUpperCase() : 'U';
+  }
+
+  function setAvatarElement(el, user) {
+    if (!el || !user) return;
+    const initial = getUserInitial(user['FULL NAME'] || user.name || 'User');
+    el.textContent = initial;
+    el.style.background = 'linear-gradient(135deg, #d4a574, #b88a54)';
+    el.style.color = '#1a1a1a';
   }
 
   function handleGoogleLogin(){showToast('⚠️ Google login requires backend integration.');}
@@ -343,44 +301,75 @@
   });
 
   function checkLoginStatus(){
-    const u=JSON.parse(localStorage.getItem('currentUser'));
+    const user = getCurrentUser();
     const pp=document.getElementById('profilePic');
     const mp=document.getElementById('mobileProfileSection');
-    if(u){
-      setAvatarElement(pp, getStoredAvatar() || u.avatarImage || defaultAvatarImage);
-      document.getElementById('loggedOutContent').style.display='none';
-      document.getElementById('loggedInContent').style.display='block';
-      document.getElementById('userName').textContent=u.name||'User';
-      document.getElementById('userEmail').textContent=u.email||'';
-      mp.innerHTML='<p class="m-user">Hi, '+(u.name||'User')+'</p><button class="m-btn" onclick="window.location.href=\'profile.html\'">View Profile</button><button class="m-btn outline" onclick="logout()">Logout</button>';
-    }else{
-      setAvatarElement(pp, defaultAvatarImage);
-      document.getElementById('loggedOutContent').style.display='block';
-      document.getElementById('loggedInContent').style.display='none';
-      mp.innerHTML='<button class="m-btn" onclick="window.location.href=\'login.html\'">Login</button><button class="m-btn outline" onclick="window.location.href=\'signup.html\'">Sign Up</button>';
+    const loggedOutContent = document.getElementById('loggedOutContent');
+    const loggedInContent = document.getElementById('loggedInContent');
+
+    if (user) {
+      if (pp) setAvatarElement(pp, user);
+      if (loggedOutContent) loggedOutContent.style.display = 'none';
+      if (loggedInContent) loggedInContent.style.display = 'block';
+      const userName = document.getElementById('userName');
+      const userEmail = document.getElementById('userEmail');
+     if (userName) userName.textContent = user.full_name || 'User';
+if (userEmail) userEmail.textContent = user.email || '';
+      if (mp) {
+        mp.innerHTML = '<p class="m-user">Hi, '+(user.full_name||'User')+'</p><button class="m-btn" onclick="window.location.href=\'profile.html\'">View Profile</button><button class="m-btn outline" onclick="logout()">Logout</button>';
+      }
+    } else {
+      if (pp) pp.textContent = '👤';
+      if (loggedOutContent) loggedOutContent.style.display = 'block';
+      if (loggedInContent) loggedInContent.style.display = 'none';
+      if (mp) {
+        mp.innerHTML = '<button class="m-btn" onclick="window.location.href=\'login.html\'">Login</button><button class="m-btn outline" onclick="window.location.href=\'signup.html\'">Sign Up</button>';
+      }
     }
   }
-  function toggleProfileDropdown(){document.getElementById('profileDropdown').classList.toggle('show');}
-  function logout(){localStorage.removeItem('currentUser');location.reload();}
+  
+  function toggleProfileDropdown(){
+    const dropdown = document.getElementById('profileDropdown');
+    if (dropdown) dropdown.classList.toggle('show');
+  }
+  
   document.addEventListener('click',function(e){
     const ps=document.querySelector('#desktopNav .profile-section');
     const dd=document.getElementById('profileDropdown');
     if(ps&&!ps.contains(e.target)&&dd)dd.classList.remove('show');
   });
-  document.getElementById('hamburgerBtn').addEventListener('click',function(){
-    document.getElementById('mobileOverlay').classList.add('open');
-    document.body.style.overflow='hidden';
-  });
-  document.getElementById('closeBtn').addEventListener('click',function(){
-    document.getElementById('mobileOverlay').classList.remove('open');
-    document.body.style.overflow='';
-  });
-  document.querySelectorAll('#mobileOverlay .mobile-links a').forEach(function(a){
-    a.addEventListener('click',function(){
-      document.getElementById('mobileOverlay').classList.remove('open');
+  
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileOverlay = document.getElementById('mobileOverlay');
+  const closeBtn = document.getElementById('closeBtn');
+
+  if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click',function(){
+      if (mobileOverlay) {
+        mobileOverlay.classList.add('open');
+      }
+      document.body.style.overflow='hidden';
+    });
+  }
+  
+  if (closeBtn) {
+    closeBtn.addEventListener('click',function(){
+      if (mobileOverlay) {
+        mobileOverlay.classList.remove('open');
+      }
       document.body.style.overflow='';
     });
-  });
+  }
+  
+  if (mobileOverlay) {
+    document.querySelectorAll('#mobileOverlay .mobile-links a').forEach(function(a){
+      a.addEventListener('click',function(){
+        mobileOverlay.classList.remove('open');
+        document.body.style.overflow='';
+      });
+    });
+  }
+  
   document.addEventListener('DOMContentLoaded',checkLoginStatus);
 </script>
 </body>

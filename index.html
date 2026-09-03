@@ -10,6 +10,10 @@
             box-sizing:border-box;
             font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           }
+
+          html {
+            font-size: 17px;
+          }
  
 
         /*NAVBAR*/
@@ -17,47 +21,85 @@
             display:flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #1a1a1a;
-            padding: 15px 50px;
+            background: rgba(26,26,26,0.98);
+            padding: 16px 46px;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+            border-bottom: 1px solid rgba(212,165,116,0.18);
+            gap: 18px;
+            min-height: 74px;
         }
 
         .logo{
             letter-spacing: 3px;
-            font-size: 28px;
-            font-weight: bold;
+            font-size: clamp(1.45rem, 2vw, 1.9rem);
+            font-weight: 800;
             color: #d4a574;
             text-transform: uppercase;
+            text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         nav  {
             list-style: none;
             display: flex;
-            gap: 40px;
             align-items: center;
+            gap: 12px;
+            margin-left: auto;
+            flex-wrap: nowrap;
+            justify-content: flex-end;
         }
 
         nav a{
+            position: relative;
             text-decoration: none;
             color: #ffffff;
-            padding: 10px 15px;
+            padding: 12px 16px;
             transition: all 0.3s ease;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 0.92rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            min-width: 118px;
+            width: 118px;
+            text-align: center;
         }
 
-        nav a:hover{
-            color: #d4a574;
-            border-bottom: 2px solid #d4a574;
+        nav a[href="tracking.html"],
+        nav a[href="table_booking.html"] {
+            min-width: 152px;
+            width: 152px;
         }
 
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: #d4a574;
+            transition: width 0.25s ease, opacity 0.25s ease;
+            opacity: 0;
+        }
+
+        nav a:hover,
         nav a.active {
             color: #d4a574;
-            border-bottom: 2px solid #d4a574;
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: calc(100% - 24px);
+            opacity: 1;
         }
 
         .profile-section {
@@ -65,11 +107,13 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-left: 4px;
+            flex-shrink: 0;
         }
 
         .profile-pic {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background: #d4a574;
             display: flex;
@@ -77,7 +121,7 @@
             justify-content: center;
             color: #1a1a1a;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 1.05rem;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -119,10 +163,11 @@
             background: #d4a574;
             color: #1a1a1a;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 10px 18px;
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 0.92rem;
             margin: 5px;
             transition: all 0.3s ease;
         }
@@ -293,10 +338,11 @@
         /* HERO SECTION*/
         .hero{
             height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("https://png.pngtree.com/thumb_back/fh260/background/20240522/pngtree-abstract-blur-coffee-shop-or-cafe-restaurant-interior-image_15683716.jpg");
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("https://png.pngtree.com/thumb_back/fh260/background/20240522/pngtree-abstract-blur-coffee-shop-or-cafe-restaurant-interior-image_15683716.jpg");
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
+            background-attachment: scroll;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -846,14 +892,19 @@
         /* RESPONSIVE */
         @media (max-width: 768px) {
             header {
-                flex-direction: column;
-                gap: 20px;
-                padding: 15px;
+                padding: 12px 20px;
+                gap: 16px;
             }
 
             nav {
-                flex-direction: column;
-                gap: 15px;
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav a {
+                font-size: 12px;
+                padding: 8px 10px;
             }
 
             .hero-body h1 {
@@ -896,36 +947,360 @@
                 flex-direction: column;
             }
         }
+ /* ================= PROFILE SECTION ================= */
+
+.profile-section {
+    position: relative;
+    display: inline-block;
+}
+
+/* Profile icon */
+.profile-pic {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 22px;
+    background: #111;
+    border: 2px solid #fff;
+    transition: 0.3s ease;
+}
+
+.profile-pic:hover {
+    background: #222;
+    transform: scale(1.05);
+}
+
+
+/* ================= DROPDOWN ================= */
+
+.profile-dropdown {
+    position: absolute;
+    top: 52px;
+    right: 0;
+
+    width: 260px;
+
+    background: #1a1a1a;
+    color: #fff;
+
+    border: 1px solid #333;
+    border-radius: 12px;
+
+    padding: 20px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+
+    z-index: 9999;
+
+    display: none;
+}
+
+
+/* Show dropdown when hovering profile */
+
+.profile-section:hover .profile-dropdown {
+    display: block;
+}
+
+
+/* Dropdown heading */
+
+.profile-dropdown h3 {
+    margin: 0 0 8px;
+    color: #fff;
+    font-size: 19px;
+}
+
+
+/* Dropdown paragraph */
+
+.profile-dropdown p {
+    margin: 0 0 18px;
+    color: #bbb;
+    font-size: 14px;
+}
+
+
+/* ================= BUTTONS ================= */
+
+.profile-dropdown .btn {
+    width: 100%;
+
+    padding: 10px 15px;
+
+    margin-top: 8px;
+
+    border: none;
+    border-radius: 7px;
+
+    background: #fff;
+    color: #000;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+.profile-dropdown .btn:hover {
+    background: #ddd;
+    transform: translateY(-1px);
+}
+
+
+/* ================= LOGOUT BUTTON ================= */
+
+.profile-dropdown .logout-btn {
+    background: #000;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+.profile-dropdown .logout-btn:hover {
+    background: #222;
+    border-color: #fff;
+}
+
+
+/* Small arrow */
+
+.profile-dropdown::before {
+    content: "";
+
+    position: absolute;
+
+    top: -7px;
+    right: 15px;
+
+    width: 13px;
+    height: 13px;
+
+    background: #000;
+
+    border-left: 1px solid #333;
+    border-top: 1px solid #333;
+
+    transform: rotate(45deg);
+}
+/* ================= LOGIN POPUP ================= */
+
+.login-popup {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.85);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 99999;
+}
+
+.login-popup-box {
+    width: 360px;
+    max-width: 90%;
+
+    background: #000;
+
+    color: #fff;
+
+    padding: 35px 30px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    border: 1px solid #d4a574;
+
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+
+    position: relative;
+}
+
+.login-popup-box h2 {
+    margin-bottom: 12px;
+    color: #d4a574;
+}
+
+.login-popup-box p {
+    color: #bbb;
+    margin-bottom: 25px;
+}
+
+.close-login-popup {
+    position: absolute;
+
+    top: 10px;
+    right: 15px;
+
+    background: none;
+    border: none;
+
+    color: #fff;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+.popup-login-btn,
+.popup-signup-btn {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 10px;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.popup-login-btn {
+    background: #d4a574;
+    color: #1a1a1a;
+    border: none;
+}
+
+.popup-signup-btn {
+    background: #b88a54;
+    color: #fff;
+    border: 1px solid #d4a574;
+}
+
+.popup-login-btn:hover {
+    background: #e2bd8b;
+}
+
+.popup-signup-btn:hover {
+    background: #d4a574;
+    color: #1a1a1a;
+}
         </style>
     </head>
     <body>
+        <!-- LOGIN REQUIRED POPUP -->
+<div id="loginPopup" class="login-popup">
+
+    <div class="login-popup-box">
+
+        <button class="close-login-popup"
+                onclick="closeLoginPopup()">
+            ×
+        </button>
+
+        <h2>Welcome to Pantry Junction</h2>
+
+        <p>
+            Please login or create an account to continue.
+        </p>
+
+        <button class="popup-login-btn"
+                onclick="window.location.href='login.html'">
+            Login
+        </button>
+
+        <button class="popup-signup-btn"
+                onclick="window.location.href='signup.html'">
+            Sign Up
+        </button>
+
+    </div>
+
+</div>
         <header>
             <div class="logo">PJ-Restaurant</div>
             <nav>
-               <a href="index.html"  class="active">Home</a>
-                 
-    <a href="order.html">Order</a>
-    <a href="tracking.html">Track Order</a>
-     
-    <a href="table_booking.html">Table Booking</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <div class="profile-section">
-        <div class="profile-pic" id="profilePic" onclick="openAvatarModal(); event.stopPropagation();" title="Click to change profile photo" style="cursor: pointer;">👤</div>
-        <div class="profile-dropdown" id="profileDropdown">
-            <div id="loggedOutContent">
-                <h3>Welcome!</h3>
-                <p>Please login to access your profile</p>
-                <button class="btn" onclick="window.location.href='login.html'">Login</button>
-                <button class="btn" onclick="window.location.href='signup.html'">Sign Up</button>
-            </div>
-            <div id="loggedInContent" style="display: none;">
-                <h3 id="userName">User</h3>
-                <p id="userEmail">user@example.com</p>
-                <button class="btn" onclick="window.location.href='profile.html'">View Profile</button>
-            </div>
-        </div>
+                <a href="index.html" class="active">Home</a>
+                <a href="order.html">Order</a>
+                <a href="tracking.html">Track Order</a>
+                <a href="table_booking.html">Table Booking</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <div class="profile-section" id="profileSection">
+
+    <div
+        class="profile-pic"
+        id="profilePic"
+        title="Profile"
+        style="cursor: pointer;"
+    >
+        👤
     </div>
+
+    <div class="profile-dropdown" id="profileDropdown">
+
+        <!-- NOT LOGGED IN -->
+
+        <div id="loggedOutContent">
+
+            <h3>Welcome!</h3>
+
+            <p>Please login or sign up to continue</p>
+
+            <button
+                class="btn"
+                onclick="window.location.href='login.html'"
+            >
+                Login
+            </button>
+
+            <button
+                class="btn"
+                onclick="window.location.href='signup.html'"
+            >
+                Sign Up
+            </button>
+
+        </div>
+
+
+        <!-- LOGGED IN -->
+
+        <div
+            id="loggedInContent"
+            style="display: none;"
+        >
+
+            <h3 id="userName">
+                User
+            </h3>
+
+            <p id="userEmail">
+                user@example.com
+            </p>
+
+            <button
+                class="btn"
+                onclick="window.location.href='profile.html'"
+            >
+                View Profile
+            </button>
+
+            <button
+                class="btn logout-btn"
+                onclick="logoutUser()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
             </nav>
         </header>
 
@@ -1005,6 +1380,434 @@
                 </div>
             </div>
         </section>
+
+    <style>
+        /* Auth choice overlay */
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.22);
+            backdrop-filter: blur(1.5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            pointer-events: auto;
+        }
+        .auth-choice {
+            background: rgba(15,15,15,0.9);
+            padding: 28px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+            border: 1px solid rgba(212,165,116,0.18);
+            pointer-events: auto;
+        }
+        .auth-choice h2 { color: #d4a574; margin-bottom: 8px; }
+        .auth-choice p { color: #cfcfcf; margin-bottom: 18px; }
+        .auth-actions { display: flex; gap: 12px; justify-content: center; }
+        .auth-actions a { padding: 12px 18px; border-radius: 8px; text-decoration: none; font-weight: 800; position: relative; z-index: 5; pointer-events: auto; cursor: pointer; }
+        .auth-actions .login { background: transparent; color: #d4a574; border: 2px solid rgba(212,165,116,0.6); }
+        .auth-actions .signup { background: linear-gradient(135deg,#d4a574,#b8945f); color: #111; }
+    </style>
+
+    <div id="authChoiceOverlay" class="auth-overlay">
+        <div class="auth-choice" role="dialog" aria-modal="true">
+            <h2>Welcome to Pantry Junction</h2>
+            <p>Get started by logging in, or create a new account to begin ordering.</p>
+            <div class="auth-actions">
+                <a href="login.html" class="login" onclick="window.location.href='login.html'; return false;">Login</a>
+                <a href="signup.html" class="signup" onclick="window.location.href='signup.html'; return false;">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Session Timer Alert -->
+    <div id="sessionTimerAlert" style="display: none; position: fixed; top: 80px; right: 20px; background: #ff6b6b; color: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 999; font-weight: 600;">
+        ⏰ Session expiring in: <span id="timerCount">10:00</span>
+    </div>
+
+    <script src="auth.js"></script>
+    <script>
+        /* =====================================================
+   PROFILE LOGIN / LOGOUT SYSTEM
+===================================================== */
+
+function updateProfileDropdown() {
+
+    const currentUser =
+        localStorage.getItem("currentUser");
+
+    const loggedOutContent =
+        document.getElementById("loggedOutContent");
+
+    const loggedInContent =
+        document.getElementById("loggedInContent");
+
+    const userName =
+        document.getElementById("userName");
+
+    const userEmail =
+        document.getElementById("userEmail");
+
+    const profilePic =
+        document.getElementById("profilePic");
+
+
+    if (!loggedOutContent || !loggedInContent) {
+        return;
+    }
+
+
+    /* ==========================================
+       USER LOGGED IN
+    ========================================== */
+
+    if (currentUser) {
+
+        try {
+
+            const user =
+                JSON.parse(currentUser);
+
+            const name =
+                user.full_name ||
+                user["FULL NAME"] ||
+                user.name ||
+                "User";
+
+            const email =
+                user.email ||
+                user["EMAIL ADDRESS"] ||
+                "";
+
+
+            loggedOutContent.style.display =
+                "none";
+
+            loggedInContent.style.display =
+                "block";
+
+
+            userName.textContent =
+                name;
+
+            userEmail.textContent =
+                email;
+
+
+            /* Show saved avatar */
+
+            if (user.avatar) {
+
+                if (
+                    user.avatar.startsWith("data:image")
+                ) {
+
+                    profilePic.style.backgroundImage =
+                        `url("${user.avatar}")`;
+
+                    profilePic.style.backgroundSize =
+                        "cover";
+
+                    profilePic.style.backgroundPosition =
+                        "center";
+
+                    profilePic.textContent = "";
+
+                } else {
+
+                    profilePic.style.backgroundImage =
+                        "none";
+
+                    profilePic.textContent =
+                        user.avatar;
+                }
+
+            } else {
+
+                profilePic.style.backgroundImage =
+                    "none";
+
+                profilePic.textContent =
+                    name.charAt(0).toUpperCase();
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Profile data error:",
+                error
+            );
+
+            showLoggedOutProfile();
+        }
+
+    }
+
+    /* ==========================================
+       USER NOT LOGGED IN
+    ========================================== */
+
+    else {
+
+        showLoggedOutProfile();
+
+    }
+}
+/* ================= LOGIN POPUP ================= */
+
+function checkLoginPopup() {
+
+    const currentUser =
+        localStorage.getItem("currentUser");
+
+    const loginPopup =
+        document.getElementById("loginPopup");
+
+    if (!loginPopup) {
+        return;
+    }
+
+    /* User is NOT logged in */
+
+    if (!currentUser) {
+
+        loginPopup.style.display = "flex";
+
+    } else {
+
+        loginPopup.style.display = "none";
+
+    }
+}
+
+
+function closeLoginPopup() {
+
+    const loginPopup =
+        document.getElementById("loginPopup");
+
+    if (loginPopup) {
+
+        loginPopup.style.display = "none";
+
+    }
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        checkLoginPopup();
+
+    }
+);
+
+/* =====================================================
+   SHOW LOGGED OUT PROFILE
+===================================================== */
+
+function showLoggedOutProfile() {
+
+    const loggedOutContent =
+        document.getElementById("loggedOutContent");
+
+    const loggedInContent =
+        document.getElementById("loggedInContent");
+
+    const profilePic =
+        document.getElementById("profilePic");
+
+
+    if (loggedOutContent) {
+
+        loggedOutContent.style.display =
+            "block";
+    }
+
+
+    if (loggedInContent) {
+
+        loggedInContent.style.display =
+            "none";
+    }
+
+
+    if (profilePic) {
+
+        profilePic.style.backgroundImage =
+            "none";
+
+        profilePic.textContent =
+            "👤";
+    }
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logoutUser() {
+
+    const confirmLogout =
+        confirm("Are you sure you want to logout?");
+
+    if (!confirmLogout) {
+        return;
+    }
+
+
+    /* Remove logged-in user */
+
+    localStorage.removeItem("currentUser");
+
+
+    /* Update profile menu */
+
+    showLoggedOutProfile();
+
+
+    /* Go to home page */
+
+    window.location.href =
+        "index.html";
+}
+
+
+/* =====================================================
+   PAGE LOAD
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        updateProfileDropdown();
+
+    }
+);
+
+
+/* =====================================================
+   WHEN USER RETURNS TO PAGE
+===================================================== */
+
+window.addEventListener(
+    "pageshow",
+    function () {
+
+        updateProfileDropdown();
+
+    }
+);
+        // Display session timer
+        function startSessionTimer() {
+            const timerAlert = document.getElementById('sessionTimerAlert');
+            const timerCount = document.getElementById('timerCount');
+            
+            const updateTimer = () => {
+                const loginTime = localStorage.getItem('loginTime');
+                if (!loginTime) {
+                    timerAlert.style.display = 'none';
+                    return;
+                }
+                
+                const elapsedTime = Date.now() - parseInt(loginTime);
+                const timeRemaining = (10 * 60 * 1000) - elapsedTime;
+                
+                if (timeRemaining <= 0) {
+                    timerAlert.style.display = 'none';
+                    return;
+                }
+                
+                // Show timer if less than 2 minutes remaining
+                if (timeRemaining <= 2 * 60 * 1000) {
+                    timerAlert.style.display = 'block';
+                    const minutes = Math.floor(timeRemaining / 60000);
+                    const seconds = Math.floor((timeRemaining % 60000) / 1000);
+                    timerCount.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                } else {
+                    timerAlert.style.display = 'none';
+                }
+            };
+            
+            updateTimer();
+            setInterval(updateTimer, 1000); // Update every second
+        }
+
+        // Check authentication and show/hide auth overlay
+        function manageAuthDisplay() {
+            const overlay = document.getElementById('authChoiceOverlay');
+            const params = new URLSearchParams(window.location.search);
+            const fromProfile = params.get('fromProfile') === 'true';
+
+            if (isUserLoggedIn() || fromProfile) {
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                updateProfileDropdown();
+                startSessionTimer();
+                return;
+            }
+
+            // Show auth popup if user is NOT logged in
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Update profile dropdown with user info
+        function updateProfileDropdown() {
+            const user = getCurrentUser();
+            const loggedOutContent = document.getElementById('loggedOutContent');
+            const loggedInContent = document.getElementById('loggedInContent');
+            
+            if (user) {
+                loggedOutContent.style.display = 'none';
+                loggedInContent.style.display = 'block';
+                document.getElementById('userName').textContent = user['FULL NAME'] || 'User';
+                document.getElementById('userEmail').textContent = user['EMAIL ADDRESS'] || 'user@example.com';
+            } else {
+                loggedOutContent.style.display = 'block';
+                loggedInContent.style.display = 'none';
+            }
+        }
+
+        // Toggle profile dropdown
+        document.getElementById('profilePic').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('profileDropdown');
+            const profilePic = document.getElementById('profilePic');
+            if (!dropdown.contains(e.target) && e.target !== profilePic) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Add logout functionality to profile dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            manageAuthDisplay();
+            
+            // Add logout button if user is logged in
+            const loggedInContent = document.getElementById('loggedInContent');
+            if (loggedInContent && !document.getElementById('logoutBtn')) {
+                const logoutBtn = document.createElement('button');
+                logoutBtn.id = 'logoutBtn';
+                logoutBtn.className = 'btn';
+                logoutBtn.textContent = 'Logout';
+                logoutBtn.onclick = logout;
+                loggedInContent.appendChild(logoutBtn);
+            }
+        });
+    </script>
 
         <section class="why" id="about">
             <h2>Why Choose Pantry Junction?</h2>
@@ -1108,18 +1911,195 @@
         </div>
 
         <script>
-  function addToCartAndGo(btn, name, price, img, desc) {
-    btn.textContent = '✓ Added!';
-    btn.classList.add('added');
-    const existing = JSON.parse(localStorage.getItem('pj_pending_cart') || '[]');
-    const found = existing.find(i => i.name === name);
-    if (found) { found.qty++; }
-    else { existing.push({ name, price, qty: 1, img, desc }); }
-    localStorage.setItem('pj_pending_cart', JSON.stringify(existing));
-    setTimeout(() => { window.location.href = 'order.html'; }, 600);
-  }
+    const CART_KEYS = ['pj_cart', 'pj_pending_cart', 'pj_cart_updated', 'pj_pending_cart_updated', 'pj_cart_last_added'];
+
+    function getCartStore() {
+        try {
+            return window.sessionStorage || window.localStorage;
+        } catch (err) {
+            return window.localStorage;
+        }
+    }
+
+    function readCartData(key, fallback = []) {
+        try {
+            const store = getCartStore();
+            const raw = store.getItem(key);
+            if (raw === null) {
+                const legacy = localStorage.getItem(key);
+                if (legacy !== null) {
+                    store.setItem(key, legacy);
+                    localStorage.removeItem(key);
+                    return JSON.parse(legacy);
+                }
+                return fallback;
+            }
+            return JSON.parse(raw);
+        } catch (err) {
+            return fallback;
+        }
+    }
+
+    function writeCartData(key, value) {
+        try {
+            getCartStore().setItem(key, JSON.stringify(value));
+        } catch (err) {
+            console.debug('cart write failed', err);
+        }
+    }
+
+    function normalizeCartList(items) {
+        const map = new Map();
+        (Array.isArray(items) ? items : []).forEach(item => {
+            if (!item || !String(item.name || '').trim()) return;
+            const key = String(item.name).trim();
+            const entry = map.get(key) || { name: key, price: Number(item.price) || 0, qty: 1, img: item.img || '', desc: item.desc || '' };
+            entry.qty = 1;
+            entry.price = Number(item.price) || entry.price || 0;
+            if (item.img) entry.img = item.img;
+            if (item.desc) entry.desc = item.desc;
+            map.set(key, entry);
+        });
+        return Array.from(map.values()).map(item => ({
+            name: String(item.name || '').trim(),
+            price: Number(item.price) || 0,
+            qty: 1,
+            img: item.img || '',
+            desc: item.desc || ''
+        }));
+    }
+
+    function resetCartState() {
+        CART_KEYS.forEach(key => {
+            try { sessionStorage.removeItem(key); } catch (err) {}
+            try { localStorage.removeItem(key); } catch (err) {}
+        });
+    }
+
+    function clearOnlyStaleCartState() {
+        try {
+            const cart = readCartData('pj_cart', []);
+            const hasValidItem = Array.isArray(cart) && cart.some(item => item && String(item.name || '').trim());
+            if (!hasValidItem) {
+                resetCartState();
+            }
+        } catch (err) {
+            resetCartState();
+        }
+    }
+
+    if (!window.location.search.includes('name=')) {
+        clearOnlyStaleCartState();
+    }
+
+    function addToCartAndGo(btn, name, price, img, desc) {
+        try {
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = '✓ Added!';
+                btn.classList.add('added');
+            }
+
+            const normalizedName = String(name || '').trim();
+            const normalizedPrice = Number(String(price).replace(/[^\d.-]/g, '')) || Number(price) || 0;
+            const item = {
+                name: normalizedName,
+                price: normalizedPrice,
+                qty: 1,
+                img: img || '',
+                desc: desc || ''
+            };
+
+            const normalizeEntry = (entry) => ({
+                name: String(entry?.name || '').trim(),
+                price: Number(entry?.price) || normalizedPrice,
+                qty: Math.max(1, Number(entry?.qty) || 1),
+                img: entry?.img || '',
+                desc: entry?.desc || ''
+            });
+
+            const persistCart = (key) => {
+                const newest = [{
+                    name: normalizedName,
+                    price: normalizedPrice,
+                    qty: 1,
+                    img: img || '',
+                    desc: desc || ''
+                }];
+                const merged = normalizeCartList(newest);
+                writeCartData(key, merged);
+                return merged;
+            };
+
+            const cartState = persistCart('pj_cart');
+            writeCartData('pj_cart', cartState);
+            writeCartData('pj_pending_cart', cartState);
+            writeCartData('pj_cart_updated', String(Date.now()));
+            writeCartData('pj_pending_cart_updated', String(Date.now()));
+            writeCartData('pj_cart_last_added', JSON.stringify({ name: normalizedName, price: normalizedPrice, ts: Date.now() }));
+
+            if (typeof showToast === 'function') showToast('Added to cart');
+
+            try {
+                const q = new URLSearchParams({
+                    name: name,
+                    price: String(item.price),
+                    img: img || '',
+                    desc: desc || ''
+                });
+                window.location.href = 'order.html?' + q.toString();
+            } catch (e) {
+                window.location.href = 'order.html';
+            }
+        } catch (e) {
+            console.error('addToCart error', e);
+            if (btn) btn.disabled = false;
+            alert('Could not add to cart.');
+        }
+    }
 
   // Profile functionality
+  function getUserInitial(name) {
+    const safeName = (name || 'User').trim();
+    return safeName ? safeName.charAt(0).toUpperCase() : 'U';
+  }
+
+    function addToCart(btn, name, price, img, desc) {
+        try {
+            if (btn) {
+                btn.disabled = true;
+                const prev = btn.textContent;
+                btn.textContent = '✓ Added';
+                setTimeout(() => { btn.textContent = prev; btn.disabled = false; }, 900);
+            }
+
+            const normalizedName = String(name || '').trim();
+            const entryPrice = Number(String(price).replace(/[^\d.-]/g, '')) || Number(price) || 0;
+            const main = readCartData('pj_cart', []);
+            const mfound = main.find(i => String(i.name || '').trim() === normalizedName);
+            if (mfound) {
+                mfound.qty = 1;
+                mfound.price = Number(mfound.price) || entryPrice;
+                if (img) mfound.img = img;
+                if (desc) mfound.desc = desc;
+            } else {
+                main.push({ name: normalizedName, price: entryPrice, qty: 1, img: img || '', desc: desc || '' });
+            }
+            writeCartData('pj_cart', main.map(item => ({
+                ...item,
+                name: String(item.name || '').trim(),
+                qty: Math.max(1, Number(item.qty) || 1),
+                price: Number(item.price) || entryPrice
+            })));
+
+            if (typeof showToast === 'function') showToast('Added to cart');
+        } catch (e) {
+            console.error('addToCart error', e);
+            if (btn) btn.disabled = false;
+            alert('Could not add to cart.');
+        }
+    }
+
   function getStoredAvatar() {
     const user = JSON.parse(localStorage.getItem('currentUser')) || {};
     return user.avatarImage || user.avatarEmoji || localStorage.getItem('userAvatarImage') || localStorage.getItem('userAvatar');
@@ -1127,12 +2107,12 @@
 
   function setAvatarElement(el, avatarValue) {
     if (!el) return;
-    const isImage = typeof avatarValue === 'string' && (avatarValue.startsWith('data:image') || avatarValue.startsWith('http'));
-    if (isImage) {
-      el.innerHTML = `<img src="${avatarValue}" alt="Profile avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />`;
-    } else {
-      el.textContent = avatarValue || '👤';
-    }
+    const user = JSON.parse(localStorage.getItem('currentUser')) || {};
+    const fallbackLetter = getUserInitial(user.name || user.email || 'User');
+    const displayValue = (typeof avatarValue === 'string' && !avatarValue.startsWith('data:image') && !avatarValue.startsWith('http')) ? avatarValue : fallbackLetter;
+    el.textContent = displayValue.trim().charAt(0).toUpperCase() || 'U';
+    el.style.background = 'linear-gradient(135deg, #d4a574, #b88a54)';
+    el.style.color = '#1a1a1a';
   }
 
   function checkLoginStatus() {
@@ -1154,58 +2134,35 @@
   }
 
   // Avatar modal functions
-  const defaultAvatarImage = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80';
-  const avatarOptions = [
-    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80',
-    'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80'
-  ];
+  const defaultAvatarImage = 'U';
   let selectedAvatar = null;
 
   function openAvatarModal() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (!user) {
-      alert('Please login to change your avatar');
+      alert('Please login to change your profile');
       return;
     }
 
-    const savedAvatar = getStoredAvatar() || defaultAvatarImage;
-    selectedAvatar = savedAvatar;
+    const initial = getUserInitial(user.name || user.email || 'User');
+    selectedAvatar = initial;
 
     const modalContent = document.getElementById('avatarOptions');
-    modalContent.innerHTML = avatarOptions.map(avatar => `
-      <div class="avatar-option ${avatar === savedAvatar ? 'selected' : ''}" onclick="selectAvatar('${avatar}', event)">
-        <img src="${avatar}" alt="Avatar choice">
-      </div>
-    `).join('');
+    modalContent.innerHTML = `<div class="avatar-option selected" style="font-size: 34px; color: #1a1a1a; background: linear-gradient(135deg, #d4a574, #b88a54);">${initial}</div>`;
 
     const preview = document.getElementById('modalAvatarPreview');
-    setAvatarElement(preview, savedAvatar);
+    setAvatarElement(preview, initial);
 
     const fileInput = document.getElementById('avatarUploadInput');
     if (fileInput) {
-      fileInput.value = '';
-      fileInput.onchange = (event) => {
-        handleAvatarUpload(event);
-        setAvatarElement(preview, selectedAvatar);
-      };
+      fileInput.style.display = 'none';
     }
 
     document.getElementById('avatarModal').classList.add('show');
   }
 
   function handleAvatarUpload(event) {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      selectedAvatar = reader.result;
-      document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
-    };
-    reader.readAsDataURL(file);
+    return;
   }
 
   function selectAvatar(avatar, evt) {
@@ -1222,22 +2179,15 @@
     if (!selectedAvatar) return;
 
     const user = JSON.parse(localStorage.getItem('currentUser')) || {};
-
-    if (typeof selectedAvatar === 'string' && (selectedAvatar.startsWith('data:image') || selectedAvatar.startsWith('http')) ) {
-      localStorage.setItem('userAvatarImage', selectedAvatar);
-      localStorage.removeItem('userAvatar');
-      user.avatarImage = selectedAvatar;
-      delete user.avatarEmoji;
-    } else {
-      localStorage.setItem('userAvatar', selectedAvatar);
-      localStorage.removeItem('userAvatarImage');
-      user.avatarEmoji = selectedAvatar;
-      delete user.avatarImage;
-    }
-
+    const initial = getUserInitial(user.name || user.email || 'User');
+    selectedAvatar = initial;
+    localStorage.removeItem('userAvatarImage');
+    localStorage.removeItem('userAvatar');
+    delete user.avatarImage;
+    delete user.avatarEmoji;
     localStorage.setItem('currentUser', JSON.stringify(user));
-    setAvatarElement(document.getElementById('profilePic'), selectedAvatar);
-    setAvatarElement(document.getElementById('modalAvatarPreview'), selectedAvatar);
+    setAvatarElement(document.getElementById('profilePic'), initial);
+    setAvatarElement(document.getElementById('modalAvatarPreview'), initial);
     closeAvatarModal();
   }
 
@@ -1269,7 +2219,19 @@
   });
 
   // Initialize profile on page load
-  document.addEventListener('DOMContentLoaded', checkLoginStatus);
+  document.addEventListener('DOMContentLoaded', function() {
+    checkLoginStatus();
+    
+    // Ensure nav links work properly
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href && href !== '#') {
+          window.location.href = href;
+        }
+      });
+    });
+  });
 </script>
 
 <style>

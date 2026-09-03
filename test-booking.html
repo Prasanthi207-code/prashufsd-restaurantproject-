@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Table Booking</title>
+</head>
+
+<body>
+
+<h2>Test Table Booking</h2>
+
+<button onclick="bookTable()">Book Table</button>
+
+<pre id="result"></pre>
+
+<script>
+
+async function bookTable() {
+
+    const bookingData = {
+        user_id: 1,
+        booking_date: "2026-08-20",
+        booking_time: "19:00",
+        guests: 2,
+        table_number: 1
+    };
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:5000/table-booking",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(bookingData)
+            }
+        );
+
+        const result = await response.json();
+
+        document.getElementById("result").textContent =
+            JSON.stringify(result, null, 2);
+
+    } catch (error) {
+
+        document.getElementById("result").textContent =
+            "ERROR: " + error.message;
+    }
+}
+
+</script>
+
+</body>
+</html>
